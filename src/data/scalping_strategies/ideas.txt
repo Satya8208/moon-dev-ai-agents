@@ -1,0 +1,133 @@
+1m EMA Crossover Scalp: Enter long when 9-period EMA crosses above 21-period EMA AND both EMAs are below the 200-period EMA, take profit at 0.75% or when 9-period EMA crosses below 21-period EMA, stop loss 0.4% below entry.
+1m Bollinger Breakout Scalp: Enter long when price closes above upper Bollinger Band (20, 2) following a Bollinger Band squeeze (width below 1.5% of SMA), take profit at 0.75% or when price closes below the middle Bollinger Band, stop loss at 0.
+1m EMA Crossover Scalp: Enter long when 9-period EMA crosses above 21-period EMA, take profit at 0.75% or if 9-period EMA crosses back below 21-period EMA, stop loss 0.4% below entry.
+5m EMA Momentum Scalp: Enter long when 9 EMA crosses above 21 EMA on 5-minute chart with volume above 50-period average, take profit at 1.2% or if 9 EMA crosses below 21 EMA, stop loss 1% below entry.
+5m Stochastic Reversal: Enter long when Stochastic (14,3,3) %K crosses above 20 and volume exceeds 1.5x 10-period average, take profit at 1.2% or %K crossing 80, stop loss 0.
+15m RSI Divergence Scalp: Enter long when RSI(9) forms bullish divergence (higher low) while price makes lower low and RSI crosses above 30, take profit at 1.2% gain or when RSI reaches 65, stop loss 0.8% below entry with volume filter requiring current bar volume > 20-period average.
+1m VWAPBounceVol: Enter long when price bounces off the lower 2-std VWAP band (touches and closes above) AND volume exceeds 1.2x 20-period average, take profit at 1% or 2x ATR(14), stop loss 0.5% or 1x ATR(14) below entry.
+1m VolumePressureSnap: Enter long when 1m volume spikes 2x above 5MA AND RSI(5) < 30 with bullish price structure, take profit at 0.4% or 1.2x ATR(7), stop loss 0.
+1m MicroTrapFade: Enter short when price breaks below the previous 15-minute low on volume less than 1.5x its 5-period average, AND VWAP is trending downwards (current VWAP < VWAP 5 periods ago), take profit at 1x ATR(7) or 0.4% above entry, stop loss at 0.
+1m FlashReversal: Enter long when RSI(5) crosses above 30, EMA(13) is above the 200-period EMA, and the current candle volume is at least 1.5x the 5-period average volume, take profit at 0.4% or 1.
+MicroRSI Volume Spike
+1m VWAPVolumeSurge: Enter long when price closes above VWAP + 2.0*StdDev AND current volume is 1.5x greater than the 5-period average volume, take profit at 0.
+1m VWAP Volume Surge Scalp:
+1m VWAPReboundHunter: Enter long when price closes below VWAP - 1.5*std (VWAP lower band) AND volume is 1.5x average of the last 10 bars, aiming for a quick snap back to VWAP + 0.
+1m VWAP Rubber Band Snap:
+1m PiranhaVWAPRevert: Enter long when price crosses above VWAP after deviating below VWAP - 1.5*std AND RSI(3) > 25 with volume exceeding 1.5x 5-period average, take profit at 0.
+Edge Source:
+VWAP Volume Squeeze
+1m StochVelocitySurge: Enter long when STOCH(5,3,3) crosses above 20 AND the K-line's 1-period velocity (change from previous bar) is greater than 20, take profit at 0.7% or 1.5x ATR(7), stop loss 0.
+1m StochVelocitySnap:
+1m VWAPReversalRSI: Enter long when price closes below VWAP - (VWAP_std * 1.5) AND RSI(5) drops below 30, take profit at 0.5% or 1.
+1m MicroMACDPop: Enter long when MACD(8,13,5) histogram flips from negative to positive AND price is above VWAP AND volume exceeds 1.5x 10-period average, take profit at 0.5% or 1.
+1m ExhaustionWickSnap: Enter long when current candle shows volume exceeding 3x 20-period average AND lower wick comprises at least 60% of total candle range AND OBV is rising over last 3 bars, take profit at 0.5% or 1.5x ATR(7), stop loss 0.
+1m RSI Velocity Burst: Enter long when RSI(5) crosses above 30, and the Rate of Change (ROC) of RSI(5) over the last 10 periods is > 1.5 (indicating a momentum burst), AND current volume is at least 2.0x the 20-period average volume, take profit at 0.
+1m PiranhaATRBreak: Enter long when price closes above the high of the previous 5 candles AND the 5-period ATR closes higher than the previous bar (volatility expansion), with OBV showing an uptrend for the last 10 bars, take profit at 1.5x ATR(5) above entry, stop loss at 0.75x ATR(5) below entry.
+1m ATR Volume Surge: Enter long when price breaks above the 5-period ATR upper band (multiplier 2.0) AND the 1-minute volume is 3x the 20-period average, take profit at 0.4% or 1.
+1m ATRMicroBreak: Enter long when price closes above the upper ATR band (close + 2.0x ATR(5)) AND ROC(3) > 0.1% confirming momentum thrust, take profit at 1.
+1m ATRPiranhaSnap: Enter long when close > previous close + ATR(5)*2.0 (micro momentum breakout) AND volume > 1.5x SMA(volume,10) (liquidity surge confirmation), take profit at 1.
+1m VWAPRubberPiranha: Enter long when price touches below VWAP - 2.0 standard deviations AND volume surges above 1.5x 20-period average (signaling exhaustion reversal), take profit at 0.
+1m PiranhaBandSnap: Enter long when price closes below the lower BB(10, 2.5) AND a 1-minute candle's volume is 1.5x the 5-period average, take profit at 0.
+1m BreakoutTrapRevert: Enter long when price breaks below the previous 1m bar's low but volume is <1.5x the 5-period average AND RSI(3) <25 (oversold confirmation), take profit at 1x ATR(7) or 0.6% above entry, stop loss 0.
+1m VWAPBBRSIBounce: Enter long when price is below VWAP AND price touches the lower Bollinger Band (10, 1.5) AND RSI(3) crosses above 30, take profit at 0.8% or 2.
+1m VolumeSurge: Enter long when volume exceeds 2.0x 10-period average AND price closes above EMA(8) with RSI(3) > 50, take profit at 0.6% or 1.
+1m VolatilityReversal: Enter long when current volume is 2.5x the average volume over the last 20 bars AND price closes above the 3-period EMA after 3 consecutive bearish candles, take profit at 0.7% or 2x ATR(5), stop loss 0.
+1m MicroMACDSnap: Enter long when MACD(5,13,3) histogram crosses above zero from negative AND price closes above EMA(8), take profit at 0.6% or 1.5x ATR(5), stop loss 0.
+1m BBStochComboReversal: Enter long when price touches lower Bollinger Band(10, 2) AND Stoch(5,3,3) K < 20 AND D < 25 AND 3-period EMA crosses above 5-period EMA, take profit at 0.6%, stop loss 0.3% below entry.
+1m RSIExtremeBounce: Enter long when RSI(5) crosses above 15 AND price forms a higher low, take profit at 0.6% or 1.5x ATR(5), stop loss 0.
+1m ExhaustionWick: Enter long when candle volume exceeds 3.0x 20-period average volume AND lower wick is at least 0.7x total candle range AND RSI(3) < 20, take profit at 0.
+1m VWAPBBRSICombo: Enter long when price touches lower BB(10) AND RSI(5) < 25 AND price < VWAP - 1.5 std AND Stoch(5) < 20, take profit at 0.4% or 1x ATR(5), stop loss 0.
+1m VolumeSurge: Enter long when current volume exceeds 3.0x 5-period volume MA AND price closes above EMA(8), take profit at 0.6% or 1.
+1m BBExtremeReversal: Enter long when price touches lower BB(10,2.5) AND RSI(3) < 30, take profit at 0.5% or 1x ATR(5), stop loss 0.
+1m FirstBarFade: Enter short when the first 1m bar is a strong bullish candle (body > 75% of range) and the next 3-5 bars fail to make new highs (close below previous bar's high) indicating a behavioral trap AND current volume is less than 0.75x 10-period average volume, take profit at 0.6% or 1.
+1m BreakoutTrapFade: Enter short when price breaks above previous 12-bar high but volume is below 1.3x 10-period average AND Stochastic(6) shows overbought above 82, take profit at 0.6% or 1.
+1m GapFadeReversion: Enter short when a gap up from prior close is > 0.3% AND after 5 wait bars the 1-minute candle closes below the open, take profit at 0.6% or 1.
+1m FirstBarFade: Enter short when the first 1m bar opens with a strong upward move (>0.4% gain from open) followed by 3-5 subsequent 1m bars failing to exceed the first bar's high AND the 1m Stochastic (5) crosses below 78, take profit at 0.8% or 1.
+1m StochMicroSnap: Enter long when Stoch %K(5) crosses above %D(3) from below 10 AND price closes above VWAP with volume exceeding 2.1x 6-period average, take profit at 0.6% or 1.
+1m MicroRSIBounce: Enter long when Micro RSI Snap (period: 3, extreme: 85) crosses above 18 from below AND price is above the 7-period EMA, take profit at 0.8% or 1.6x ATR(5), stop loss 0.
+1m TripleMicroConfirm: Enter long when RSI(5) crosses above 28 AND EMA(6) crosses above EMA(13) AND volume exceeds 1.5x 10-period average, take profit at 0.6% or 1.
+1m ATRVoltaSpike: Enter long when current True Range > 2.0 * ATR(5) AND RSI(8) crosses above 28, take profit at 0.6% or 1.
+1m GapFadeReversal: Enter long when price opens 0.35% below prior close AND Stoch(6) crosses above 22, take profit at 0.72% or 1.
+1m VWAPSnapBack: Enter long when price touches lower VWAP band (2.0 std) and bounces within 0.15% AND RSI(8) crosses above 28, take profit at 0.
+1m VolExhaustionSnap: Enter long when a bullish candle closes with volume exceeding 3.0x its 10-period average and its lower wick is at least 60% of the total candle range AND the 7-period EMA is above the 12-period EMA, take profit at 0.8% or 1.
+1m StochMicroSnap: Enter long when STOCH(5,3) %K crosses above %D below 22 AND price above EMA(10), take profit at 0.6% or 1.2x ATR(6), stop loss 0.
+1m ATRBounceBlast: Enter long when current candle's high breaks above the previous candle's high AND ATR(5) expands by 1.5x compared to the average of the previous 5 ATR values AND Price is above EMA(4), take profit at 0.6% or 1.
+1m StochVelocitySpike: Enter long when STOCH(5,3,3) %K crosses above 18 from below AND 4-period EMA crosses above 7-period EMA, take profit at 0.8% or 1.6x ATR(6), stop loss 0.
+1m MicroMACDSnipe: Enter long when MACD(8,13,3) histogram flips positive from negative AND RSI(6) is between 38-62, take profit at 0.6% or 1.5x ATR(6), stop loss 0.
+1m OBV5MicroBull: Enter long when OBV shows micro bullish divergence over 5-bar lookback (price low < 2 bars ago low but OBV low > 2 bars ago low) AND price closes above EMA(6), take profit at 0.6% or 1.2x ATR(8), stop loss 0.
+1m ExhaustionBlowout: Enter long when a candle closes with a wick_ratio of 0.7 or greater, volume is 3.0x above the 20-period average, AND the candle close is above the 10-period EMA, take profit at 0.
+1m StochRSIDoubleExtreme: Enter long when Stoch(5) K-line crosses above 18 from oversold AND RSI(5) is below 22 simultaneously, take profit at 0.6% or 1.5x ATR(8), stop loss 0.
+1m VWAPBandSqueeze: Enter long when price crosses above VWAP + 1.5 std and RSI(4) is below 28 AND a 12-period EMA crosses above a 10-period EMA, take profit at 0.8% or 1.
+1m VwapStdRebound: Enter long when price low touches VWAP - 2*std_dev band and close > VWAP - 2*std_dev band, AND volume > 1.2x 12-period average, take profit at 0.6% or 1.
+5m MomentumSurge: Enter long when bullish divergence occurs between price and RSI(9) AND Chaikin Money Flow (CMF) (20) is above 0.15, take profit at 1.1% or 2.
+5m TripleEMAThrust: Enter long when EMA(4) crosses above EMA(11) and both are above EMA(14) AND price closes above the high of the previous 2 candles, take profit at 1.0%, stop loss 0.5% below entry.
+5m MACDZeroPunch: Enter long when MACD(12,26,9) crosses above zero line from below AND RSI(6) is between 42-68, take profit at 1.0% or 2.5x ATR(11), stop loss 0.
+5m TripleMomentumVolSnap: Enter long when RSI(9) crosses above 28 AND MACD(11,26,9) line crosses above signal AND volume exceeds 1.5x 14-period average, take profit at 1.0% or 2x ATR(10), stop loss 0.
+5m QuantumSurge: Enter long when RSI(11) crosses above 28 AND current candle volume exceeds 1.5x the 9-period average volume, take profit at 0.9% or 1.
+5m StochMomentumSnap: Enter long when STOCH(9,3) %K crosses above %D from below 28 AND price breaks above the 12-period EMA, take profit at 1.0% or 2.2x ATR(10), stop loss 0.
+5m NewsFadeSnapper: Enter long when price drops 1.2%+ within 3 candles on news spike AND RSI(11) falls below 28 then recovers above 32 within 2 candles, take profit at 1.0% or 2x ATR(12), stop loss 0.
+5m RSIMomentumSurgeBreak: Enter long when RSI(6) crosses above 50 AND price breaks above the high of the previous 4 bars, take profit at 1.0% or 1.2x ATR(10), stop loss 0.
+5m VortexWave: Enter long when 28-period EMA crosses above 34-period EMA AND 11-period RSI is below 32, take profit at 1.2% or 2.4x ATR, stop loss 0.
+5m MACD8_21_EMA34_RSI12: Enter long when MACD(8,21) histogram turns positive above EMA(34) AND RSI(12) crosses above 32, take profit at 1.0%, stop loss 0.5% below entry.
+5m MACDZeroPulse: Enter long when MACD(8,26,9) crosses above zero line from below AND Stochastic(11) is below 28 and rising, take profit at 1.0% or 2x ATR(12), stop loss 0.5% below entry.
+15m OpenRangeSurge: Enter long when price breaks above the 6-bar session open range high AND the 4-period RSI crosses above 68, take profit at 1.8% or 2x ATR, stop loss 0.9% below entry.
+15m RSIExhaustionReversal: Enter long when RSI(9) forms bullish divergence over last 10 bars with price making lower lows and RSI reading above 28 AND price closes above the 11-period EMA, take profit at 2.0%, stop loss 1.0% below entry.
+15m ExhaustionFade: Enter short when 3+ consecutive green bars with RSI(11) above 78 AND volume declining for 2+ bars below 0.7x 12-period average, take profit at 1.8% or 2x ATR(10), stop loss 0.
+15m WeekendGapFade: Enter long when Monday open gaps down from Friday close by >0.7% and within first 45 minutes price reclaims 30% of the gap upward (behavioral momentum alignment), AND Stoch(14) crosses above 22, take profit at 1.8% or 1.
+15m CloudSurferReversal: Enter long when price closes above the 9 EMA and the 21 EMA when both EMAs are rising AND the 9 EMA crosses above the 21 EMA from below, AND the 4-period RSI crosses above 40, take profit at 1.8% or 3.0x ATR, stop loss 0.
+15m EMA22x50 Momentum: Enter long when EMA(22) crosses above EMA(50) on a closing basis AND the 2-bar RSI(9) is above 78, take profit at 2.0%, stop loss 0.8% below entry.
+15m ATRChannelBreak: Enter long when price closes above upper ATR(14) channel band (2.0x multiplier) AND Stochastic(11) %K crosses above 28 from below, take profit at 1.8% or 2.
+15m BBSqueezeBurst: Enter long when BB(20,2) squeeze (12 bars) ends and close > upper BB AND RSI(4)>78, enter short when BB(20,2) squeeze (12 bars) ends and close < lower BB AND RSI(4)<22, take profit at 2% or 2x ATR(10), stop loss 1% below entry.
+1m VolSpikeFade: Enter short when volume spikes to 3.0x the 5-period average AND price closes below the EMA(11) for 2 consecutive bars, take profit at 0.8% or 2.
+1m MicroRSISnap: Enter long when RSI(3) crosses above 15 from below AND price closes above EMA(6), take profit at 0.6% or 1.5x ATR(4), stop loss 0.
+1m MicroPulseReversal: Enter long when the 6-period EMA crosses above the 11-period EMA AND RSI(4) crosses above 32, take profit at 0.8% or 2.2x ATR(5), stop loss 0.
+1m MomentumVolEMA: Enter long when 5-period Momentum crosses above zero AND volume exceeds 2.0x 12-period average AND price closes above EMA(8), take profit at 0.6% or 1.
+1m EMASwiftSurge: Enter long when EMA(6) crosses above EMA(11) AND price closes above the high of the previous 3 candles, take profit at 0.8% or 1.6x ATR(14), stop loss 0.
+1m FirstBarTrapFade: Enter long when first 1m bar closes below open by 0.28% on low volume (below 0.75x 12-period average) and after 4 bars price exceeds first bar high, take profit at 0.
+1m ATRMomentumSurge: Enter long when price closes above (previous close + 1.5 * ATR(5)) AND Stochastic(5) crosses above 28, take profit at 0.7% or 1.
+1m StochMicroSnap: Enter long when Stoch(7,3) crosses above 28 from below 18 AND price closes above EMA(12), take profit at 0.6% or 1.2x ATR(11), stop loss 0.
+1m BBExtremeReversal: Enter long when price touches lower BB(10,2.5) and reverses above it AND RSI(11) crosses above 28, take profit at 0.6% or 1.
+1m EMA Micro Thrust: Enter long when EMA(3) crosses above EMA(8) with slope > 0.12% AND volume exceeds 2.1x 6-period average, take profit at 0.
+1m BBRevPulse: Enter long when price touches lower BB(10,2.5) with reversal close above lower band AND Stoch(5) crosses above 22, take profit at 0.6% or 1.
+1m BBReversalPulse: Enter long when price touches the lower Bollinger Band (period 10, std 2.5) AND Stochastic Oscillator (5,3,3) crosses above 22, take profit at 0.8% or 1.
+1m RoundFader: Enter short when price reaches within 0.05% of round number (00 or 50 level) AND RSI(8) reads above 72 showing weak momentum into resistance, take profit at 0.6% or 1.
+1m Retail FOMO Fade Short: Enter short when RSI(8) crosses above 78 AND price forms two consecutive bearish candles with decreasing volume after an initial volume spike, take profit at 0.5% or 1.5x ATR(5), stop loss 0.
+1m VWAPRubberSnap: Enter long when price touches the lower VWAP band (1.5 std) AND 4-period EMA crosses above 7-period EMA, take profit at 0.8% or 1.
+1m FOMO Fade Reversal: Enter short when RSI(9) crosses above 28 from oversold AND volume spike >2.2x 4-period average + price fails to break 2-period high within 2 candles, take profit at 0.8% or 1.
+1m EMASnapPulse: Enter long when EMA(3) crosses above EMA(8) AND price closes above VWAP with volume exceeding 1.6x 10-period average, take profit at 0.6% or 1.
+1m FOMOFadeReversal: Enter short when RSI(6) crosses below 78 from overbought AND price fails to break the previous candle's high with a volume spike (current candle's volume > 1.5x 5-period average volume), take profit at 0.6% or 1.
+1m PanicWickSnap: Enter long when candle wick exceeds 62% of total candle range with price recovering above wick midpoint within 2 candles AND RSI(9) rebounds from below 18 showing momentum shift, take profit at 0.8% or 1.6x ATR(6), stop loss 0.
+1m VolWickExhaust: Enter long when exhaustion candle forms with volume >=3.0x 14-period average AND lower wick >=0.7x body size, take profit at 0.
+1m BBStochComboReversal: Enter long when price touches lower Bollinger Band(10) AND Stoch(5,3,3) K% is below 18 AND 4-period EMA crosses above 7-period EMA, take profit at 0.8% or 2.2x ATR(5), stop loss 0.
+1m MACDMicroSnipe: Enter long when MACD(5,21,3) histogram crosses above zero AND RSI(9) is between 32 and 68, take profit at 0.6% or 1.5x ATR(6), stop loss 0.
+1m TripleMicroSurge: Enter long when COMBO(RSI(8) crosses above 28, EMA(4) crosses above EMA(10), Stoch(5) %K crosses above 22) AND volume exceeds 1.5x 5-period average, take profit at 0.8% or 1.
+1m BBReboundRush: Enter long when price touches or crosses below the lower Bollinger Band (period 10, std dev 2.5) AND Stochastic Oscillator (period 5, smoothing 3) is below 18, take profit at 0.8% or 1.
+1m PanicWickAccumulator: Enter long when lower wick > 62% of (high-low) with close > low + 78% of (high-low) for quick recovery AND RSI(9) crosses above 32, take profit at 0.5% or 1.5x ATR(10), stop loss 0.
+1m VWAPStdSurgeBreak: Enter long when close > VWAP + 2.0*stdev(14) AND volume > 2.0x 9-period average volume, take profit at 0.
+1m VWAPSnapback: Enter long when price touches lower VWAP band at 1.5 standard deviations AND Stochastic(5) is below 18 with %K crossing above %D, take profit at 0.6% or 1.
+1m VolumeBlast: Enter long when volume exceeds 2.5x 10-period average AND Stochastic(5) is below 28 with %K crossing above %D, take profit at 0.6% or 1.
+1m VWAPVolumeSurge: Enter long when price breaks above VWAP + 2.0 * Standard Deviation AND current volume is 1.5x the 10-period average, take profit at 0.
+1m StochVelocitySnap: Enter long when Stoch(5) %K velocity exceeds 30 points per bar from below 18 AND price closes above EMA(7), take profit at 0.6% or 1.5x ATR(6), stop loss 0.
+1m StochExtremeRebound: Enter long when STOCH(7,3) %K crosses above 10 AND close > EMA(6), take profit at 0.5% or 1x ATR(8), stop loss 0.25% below entry.
+1m MACDMicroSurge: Enter long when MACD(5,21,5) crosses above its signal line AND price closes above the 11-period EMA, take profit at 0.8% or 2.2x ATR(6), stop loss 0.
+1m VWAPVolBreak: Enter long when price breaks above VWAP + (2.0 * VWAP std dev) AND volume exceeds 1.5x 11-period average, take profit at 0.
+5m PsychoReversal: Enter long when price briefly pierces a round_100 psychological level downwards but fails to hold below for 2 bars AND Stochastic(9) crosses above 22, take profit at 1.2% or 2.5x ATR(10), stop loss 0.
+5m GapFadeMomentum: Enter long when Monday gap down from Friday close stalls after 45 minutes AND RSI(12) crosses above 28, take profit at 1.2%, stop loss 0.6% below entry.
+5m NewsFadeReversion: Enter long when price spikes down 1.2%+ within 2 bars on news AND 3 bars later forms inside bar with RSI(11) below 28, take profit at 1.2% or 2.
+5m FailedBreakoutFade: Enter long/short when price breaks key level (prev 8-bar high/low) with volume <1.5x 12-period average, then after 2 bars reverses back through level AND RSI(12) crosses 28/72, take profit at 1.0% or 2x ATR(12), stop loss 0.
+5m RetailReversalFade: Enter short when between 9:30-10:30 EST price makes a strong directional move upwards (greater than 0.75% in one 5m candle) AND RSI(11) is above 78 and begins to turn down, take profit at 1.2% or 2.
+5m BBReversalTrap: Enter long when price breaks below the lower Bollinger Band (20, 2.0 std dev) AND then re-enters the band within 2 bars AND the breakout volume is less than 1.5x the 20-period average volume, take profit at 1.
+5m StopHuntVortex: Enter long when price spikes 0.4% below previous 5m low and immediately reverses with a 2-candle V-shape pattern AND 3-period EMA(11) crosses above 7-period EMA(11) on the reversal candle, take profit at 0.9%, stop loss 0.
+5m RoundFader: Enter short when price reaches within 0.08% of round number (x.00 or x000) AND Stochastic(9) shows bearish divergence with %K crossing below 78, take profit at 0.
+5m BullTrapReversal: Enter short when price breaks above BB(15, 2.0) upper band then closes back inside within 2 bars AND Stoch(11) shows bearish cross below 78, take profit at 1.2% or 2.
+5m CapitulationReversalCombo: Enter long when RSI(6) < 18 AND volume > 3x 15-period average AND lower wick > 70% of candle range, take profit at 1.0% or 1.2x ATR(12), stop loss 0.
+5m GapFade: Enter short when an overnight gap is > 0.5% and price fails to continue gap direction in the first 15-30 minutes, showing momentum stall at the 12-period EMA, AND the 12-period EMA crosses below the 34-period EMA, take profit at 1.2% or 2.
+5m BBTrapReversal: Enter long when price breaks below 20-period BB(2.0 std) then re-enters within 2 bars with volume below 1.0x average on breakdown AND Stoch(9) crosses above 18 from oversold, take profit at 1.
+5m ORB Fade Reversal: Enter short when price breaks below 15-min opening range low with weak volume (bar size < 0.3x ATR(12)) and then fails to extend for 2 bars AND RSI(8) crosses below 72 from above, take profit at 0.8% or 1.
+5m SocialSpikeFade: Enter short when sudden volume spike >3x 15-period average with no clear catalyst, wait 5 bars, and price retraces to 50% of initial spike move without new high AND Stochastic(9) >82, take profit at 1.0% or 1.5x ATR(12), stop loss 0.
+5m FailedBreakoutFade: Enter short when price breaks above previous 3-bar high AND volume on breakout bar is less than 1.4x 15-period average volume, AND price reverses and closes back below the broken high within 3 bars, take profit at 1.4% or 2.
+5m StopHuntSnap: Enter long when price wicks 0.3% below previous 12-bar low then closes back above it within 2 candles AND volume exceeds 2.2x 14-period average, take profit at 1.
+5m Euphoria Fade: Enter short when price makes new 20-bar high with RSI(12) > 82 AND volume is 2.2x 10-period average with a long upper wick (>60% of candle range), take profit at 0.8%, stop loss 0.
+5m ExhaustionGapFade: Enter long when price gaps down after 4+ consecutive red candles AND RSI(6) is below 18, take profit at 1% or 2x ATR(10), stop loss 0.5% below entry.
+5m EarningsFadeSnap: Enter short when post-earnings gap up shows RSI(12) > 82 on the 5m chart after 12 minutes AND 6-period EMA crosses below 11-period EMA, take profit at 1.2%, stop loss 0.6% above entry.
+5m WickTrapFade: Enter long when price breaks below low of prior 6-bar consolidation range, breakout bar lower wick >60% of bar range + volume <0.7x avg of prior 4 bars, AND RSI(4) >28, take profit at 1% or 2x ATR(8), stop loss 0.5% below entry.

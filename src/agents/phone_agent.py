@@ -43,7 +43,7 @@ if project_root not in sys.path:
 if not TESTING_MODE:
     from dotenv import load_dotenv
     load_dotenv()
-    
+
     # Initialize OpenAI client with correct env var name
     openai.api_key = os.getenv("OPENAI_KEY")
     if not openai.api_key:
@@ -59,7 +59,7 @@ else:
     app = None
 
 # Model settings
-MODEL_NAME = "gpt-4o-mini"  # Using latest GPT-4 Turbo
+MODEL_NAME = "gpt-5-mini"  # GPT-5 Mini - Fast and capable
 VOICE_NAME = "echo"  # Options: alloy, echo, fable, onyx, nova, shimmer
 
 # Response settings
@@ -92,7 +92,7 @@ KNOWLEDGE_BASE = """
 Key points about Moon Dev:
 - Passionate about AI, trading, and coding
 - Streams coding sessions on YouTube
-- Built github repo with 15+ AI trading agents 
+- Built github repo with 15+ AI trading agents
 - Runs a coding bootcamp called algo trade camp
 - Focuses on Python and algo trading
 
@@ -126,7 +126,7 @@ Frequently Asked Questions
 * do you do market orders or limit orders?i try to use limit orders as much as possible, but some strategies require market orders. i use market orders more often on the close than the open of a trade as most of my bots can wait to enter, but sometimes need to get out in a hurry.
 * how can i get in touch with you (moon dev)?the best way is to catch me on a live stream. if its about business you can send me a short email at moon@algotradecamp.com i can't get back to everyone, so please pitch short and concisely
 * can you build a bot for me?probably not, i code live every day on youtube so i can show my code to as many people as possible to help them. if you have a project that you'd like to hire me to do & are ok with some of it being shown on youtube, feel free to email me here: moon@algotradecamp.comi would much rather teach you how to fish, opposed to just giving you a meal. that's why i teach how to automate your trading in the bootcamp
-* can i have a discount?i've spent nearly 4 years testing & figuring out things. i believe code is the great equalizer so there already is a steep discount. i believe i could sell this bootcamp for 10x the price, minimum.if you really can't afford it, i would suggest checking out the #clips channel in discord so you can get the bootcamp for free, while learning. you can also earn $69 per 10,000 views instead of free bootcamp if you want. the more views you get the higher the payment per 10,000 goes. 
+* can i have a discount?i've spent nearly 4 years testing & figuring out things. i believe code is the great equalizer so there already is a steep discount. i believe i could sell this bootcamp for 10x the price, minimum.if you really can't afford it, i would suggest checking out the #clips channel in discord so you can get the bootcamp for free, while learning. you can also earn $69 per 10,000 views instead of free bootcamp if you want. the more views you get the higher the payment per 10,000 goes.
 * how often is the bootcamp updated?the bootcamp is updated every time i find something new that helps me. the idea is to constantly share new things i figure out inside of the bootcamp members area. i stream on youtube every day and work on the hardest problems and then at the end of the week i update the bootcamp. there are usually 2-4 updates per month.
 * is the bootcamp for advanced coders only?no way! i built this bootcamp because i believe code is the great equalizer. i teach you exactly how to code in python, and then teach you how to algo trade. check out the testimonials, there are students who have never coded before and others who have coded for 10+ years. the bootcamp will save everyone interested in algo trading an unbelievable amount of time.
 * can i learn only from your youtube channel?yes, absolutely. i believe code is the great equalizer so every day i create "over the shoulder" type coding videos. i have over 1,369 hours of coding videos free on my youtube so you can watch them all and essentially know what i know. that was the whole point of the youtube channel. many people kept asking for a course with short and concise videos and all my code, so i launched the algo trade camp but i still want to build the youtube into the best public good about algo trading
@@ -158,13 +158,13 @@ class VoiceRecorder:
         self.recording_start = None
         self.last_speech_end = None
         self.processing = False
-        
+
     def start_recording(self):
         """Start recording audio"""
         try:
             # First test if we can access the microphone
             cprint("🎤 Testing microphone access...", "cyan")
-            
+
             # List available audio devices
             devices = sd.query_devices()
             cprint(f"🎛️ Available audio devices:", "cyan")
@@ -176,10 +176,10 @@ class VoiceRecorder:
                         default_input = i
                     if 'default' in device['name'].lower() or 'microphone' in device['name'].lower():
                         default_input = i
-            
+
             if default_input is None:
                 raise Exception("No input devices found!")
-                
+
             # Try to find default input device
             try:
                 default_device = sd.query_devices(kind='input')
@@ -188,7 +188,7 @@ class VoiceRecorder:
             except Exception as e:
                 cprint(f"⚠️ Using fallback device {default_input}: {e}", "yellow")
                 device_id = default_input
-            
+
             # Test microphone access with explicit device
             test_stream = sd.InputStream(
                 device=device_id,
@@ -214,7 +214,7 @@ class VoiceRecorder:
             )
             self.stream.start()
             cprint("🎙️ Recording started!", "green")
-            
+
             # Print current audio settings
             cprint(f"🔊 Audio settings:", "cyan")
             cprint(f"  Device: {devices[device_id]['name']}", "cyan")
@@ -222,11 +222,11 @@ class VoiceRecorder:
             cprint(f"  Channels: {CHANNELS}", "cyan")
             cprint(f"  Chunk size: {CHUNK_SIZE}", "cyan")
             cprint(f"  Volume threshold: {VOLUME_THRESHOLD}", "cyan")
-            
+
             # Test the input stream with some initial readings
             cprint("\n📊 Testing input levels...", "cyan")
             time.sleep(0.5)  # Wait for stream to stabilize
-            
+
         except Exception as e:
             cprint("❌ Could not access microphone. Please allow microphone access in your browser.", "red")
             cprint(f"Error: {str(e)}", "red")
@@ -238,31 +238,31 @@ class VoiceRecorder:
         if hasattr(self, 'stream'):
             self.stream.stop()
             self.stream.close()
-        
+
     def audio_callback(self, indata, frames, time, status):
         """Callback for audio stream"""
         if status:
             cprint(f"⚠️ {status}", "yellow")
             return
-            
+
         if self.processing:
             return  # Don't process audio while handling a response
-            
+
         # Get volume level with better noise handling
         volume_norm = np.linalg.norm(indata) / np.sqrt(frames)
         max_volume = np.max(np.abs(indata))
-        
+
         # Apply noise floor
         if volume_norm < BACKGROUND_NOISE_FLOOR:
             volume_norm = 0
-        
+
         current_time = time.currentTime
-        
+
         # Debug volume levels more frequently during initial setup
         if not hasattr(self, 'debug_count'):
             self.debug_count = 0
         self.debug_count += 1
-        
+
         # Print volume levels more frequently at first, then reduce frequency
         if self.debug_count < 100 or random.random() < 0.01:
             cprint(f"🎤 Volume: {volume_norm:.4f} (max: {max_volume:.4f}, threshold: {VOLUME_THRESHOLD})", "cyan")
@@ -270,7 +270,7 @@ class VoiceRecorder:
                 cprint("⚠️ No audio input detected. Please check your microphone.", "yellow")
             elif volume_norm < VOLUME_THRESHOLD:
                 cprint("ℹ️ Volume too low. Please speak louder or adjust microphone.", "cyan")
-        
+
         # Start or continue recording if volume above threshold
         if volume_norm > VOLUME_THRESHOLD or max_volume > VOLUME_THRESHOLD:
             if not self.recording_start:
@@ -285,22 +285,22 @@ class VoiceRecorder:
                 if self.silence_start is None:
                     self.silence_start = current_time
                 self.current_audio.append(indata.copy())
-                
+
                 # Check if this is just a breath pause
-                if (self.silence_start and 
+                if (self.silence_start and
                     current_time - self.silence_start <= BREATH_PAUSE):
                     return  # Continue recording through brief pauses
-                
+
                 # If silence long enough and we have enough audio, process it
-                if (self.silence_start and 
+                if (self.silence_start and
                     current_time - self.silence_start > SPEECH_END_PAUSE and
                     current_time - self.recording_start > MIN_PHRASE_LENGTH):
-                    
+
                     # Check if this might be part of a continuing thought
-                    if (self.last_speech_end and 
+                    if (self.last_speech_end and
                         current_time - self.last_speech_end < MAX_PHRASE_GAP):
                         return  # Wait for possible continuation
-                    
+
                     if self.current_audio:
                         audio = np.concatenate(self.current_audio, axis=0)
                         # Extra check for minimum volume over time
@@ -308,7 +308,7 @@ class VoiceRecorder:
                             self.audio_queue.put(audio)
                             self.processing = True  # Stop processing until response handled
                             cprint("🎙️ Speech ended, processing...", "cyan")
-                    
+
                     # Update tracking
                     self.last_speech_end = current_time
                     self.current_audio = []
@@ -322,12 +322,12 @@ async def process_audio_chunk(audio_data):
         if len(audio_data) < SAMPLE_RATE * MIN_AUDIO_LENGTH:
             cprint("⚠️ Audio too short, skipping...", "yellow")
             return ""
-            
+
         # Check if audio is just silence
         if np.max(np.abs(audio_data)) < SILENCE_THRESHOLD:
             cprint("⚠️ Audio too quiet, skipping...", "yellow")
             return ""
-        
+
         # Convert to wav file
         with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as temp_file:
             with wave.open(temp_file.name, 'wb') as wf:
@@ -335,23 +335,23 @@ async def process_audio_chunk(audio_data):
                 wf.setsampwidth(2)  # 16-bit
                 wf.setframerate(SAMPLE_RATE)
                 wf.writeframes((audio_data * 32767).astype(np.int16).tobytes())
-            
+
             # Get transcription
             with open(temp_file.name, 'rb') as f:
                 transcript = openai.audio.transcriptions.create(
                     model="whisper-1",
                     file=f
                 ).text
-                
+
             # Cleanup
             os.unlink(temp_file.name)
-            
+
             # Validate transcript
             if not transcript or len(transcript.strip()) < 2:
                 return ""
-                
+
             return transcript
-            
+
     except Exception as e:
         cprint(f"❌ Error processing audio: {str(e)}", "red")
         return ""
@@ -363,45 +363,45 @@ async def play_audio_response(text):
         text = text.strip()
         if not any(text.endswith(char) for char in '.!?'):
             text += '.'
-            
+
         voice_response = openai.audio.speech.create(
             model="tts-1",
             voice=VOICE_NAME,
             speed=1.2,  # Slightly faster for more natural flow
             input=text
         )
-        
+
         # Save to temp file
         with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as temp_file:
             for chunk in voice_response.iter_bytes():
                 temp_file.write(chunk)
             temp_path = temp_file.name
-        
+
         # Get audio duration using ffprobe
         duration = float(subprocess.check_output([
-            'ffprobe', 
+            'ffprobe',
             '-v', 'error',
             '-show_entries', 'format=duration',
             '-of', 'default=noprint_wrappers=1:nokey=1',
             temp_path
         ]).decode().strip())
-        
+
         # Calculate when to resume listening (90% through the response)
         resume_time = duration * 0.9
-        
+
         def play_audio():
             os.system(f"afplay {temp_path}")
             os.unlink(temp_path)
-            
+
         # Start audio playback in background thread
         play_thread = threading.Thread(target=play_audio)
         play_thread.start()
-        
+
         # Wait until near the end to resume listening
         await asyncio.sleep(resume_time)
-        
+
         return True
-            
+
     except Exception as e:
         cprint(f"❌ Error playing audio: {str(e)}", "red")
         return False
@@ -411,22 +411,22 @@ def split_into_phrases(text):
     # Split on punctuation first
     chunks = []
     current = []
-    
+
     # Split into words
     words = text.split()
-    
+
     for word in words:
         current.append(word)
         # If word ends with punctuation or we have enough words for a natural phrase
-        if (any(char in word for char in '.!?,') or 
+        if (any(char in word for char in '.!?,') or
             len(current) >= 8):  # Increased from 3 to 8 for more natural phrases
             chunks.append(' '.join(current))
             current = []
-    
+
     # Add any remaining words
     if current:
         chunks.append(' '.join(current))
-    
+
     return chunks
 
 def log_unknown_question(question):
@@ -437,18 +437,18 @@ def log_unknown_question(question):
             'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'question': question
         }
-        
+
         # Load existing or create new DataFrame
         if UNKNOWN_QUESTIONS_FILE.exists():
             df = pd.read_csv(UNKNOWN_QUESTIONS_FILE)
             df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
         else:
             df = pd.DataFrame([new_data])
-        
+
         # Save to CSV
         df.to_csv(UNKNOWN_QUESTIONS_FILE, index=False)
         cprint(f"📝 Unknown question logged: {question}", "yellow")
-        
+
     except Exception as e:
         cprint(f"❌ Error logging unknown question: {str(e)}", "red")
 
@@ -456,7 +456,7 @@ def needs_knowledge_base(question):
     """Check if the question is about Moon Dev, Algo Trade Camp, or specific offerings"""
     # Convert to lowercase for matching
     question = question.lower()
-    
+
     # Keywords that indicate we need to verify against knowledge base
     moon_dev_keywords = {
         'moon dev', 'moondev', 'moon', 'bootcamp', 'algo trade camp', 'algotradecamp',
@@ -464,7 +464,7 @@ def needs_knowledge_base(question):
         'refund', 'subscription', 'price', 'cost', 'payment', 'lifetime',
         '777', 'peace and love', 'trading bot', 'your bot', 'your strategy'
     }
-    
+
     # Check if any keywords are in the question
     return any(keyword in question for keyword in moon_dev_keywords)
 
@@ -473,27 +473,27 @@ def is_question_in_knowledge_base(question, knowledge_base):
     # First check if this question needs knowledge base verification
     if not needs_knowledge_base(question):
         return True  # Allow AI to use its general knowledge
-        
+
     # Convert to lowercase for matching
     question = question.lower()
     knowledge_base = knowledge_base.lower()
-    
+
     # Extract key terms from question (excluding common words)
-    common_words = {'what', 'how', 'why', 'when', 'where', 'who', 'is', 'are', 'do', 'does', 
-                   'can', 'could', 'would', 'will', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 
+    common_words = {'what', 'how', 'why', 'when', 'where', 'who', 'is', 'are', 'do', 'does',
+                   'can', 'could', 'would', 'will', 'the', 'a', 'an', 'in', 'on', 'at', 'to',
                    'for', 'of', 'with', 'by', 'about', 'your', 'you', 'i', 'we', 'they', 'he',
                    'she', 'it', 'this', 'that', 'these', 'those', 'my', 'our', 'their'}
-                   
-    question_terms = set(word.strip('?.,!') for word in question.split() 
+
+    question_terms = set(word.strip('?.,!') for word in question.split()
                         if word.strip('?.,!').lower() not in common_words)
-    
+
     # If no significant terms (after removing common words), allow AI to answer
     if not question_terms:
         return True
-        
+
     # Count how many key terms are found in knowledge base
     terms_found = sum(1 for term in question_terms if term in knowledge_base)
-    
+
     # If we find most of the key terms (>= 70%), consider it answerable
     return (terms_found / len(question_terms)) >= 0.7
 
@@ -502,22 +502,22 @@ async def test_conversation():
     try:
         cprint("\n🎯 TESTING MODE ACTIVE", "yellow")
         cprint("═" * 50, "yellow")
-        
+
         # Welcome message
         cprint("\n" + "═" * 50, "green")
         cprint("🌟 Starting Moon Dev's AI Voice Assistant! 🌙", "green")
         cprint("Press Ctrl+C to end the conversation", "yellow")
         cprint("═" * 50, "green")
-        
+
         # Initial greeting
         greeting = "Hello! This is Moon Dev's AI Assistant. How can I help you today? 🌙"
         cprint("\n🤖 AI: " + greeting, "green")
         await play_audio_response(greeting)
-        
+
         # Initialize recorder
         recorder = VoiceRecorder()
         recorder.start_recording()
-        
+
         conversation_history = [
             {"role": "system", "content": f"""You are Moon Dev's friendly AI assistant. Keep responses very short and concise (1-2 sentences max). Add emojis to make responses fun and engaging.
 
@@ -536,45 +536,45 @@ Key guidelines:
 """},
             {"role": "assistant", "content": greeting}
         ]
-        
+
         cprint("\n🎤 Listening...", "cyan")
-        
+
         while True:
             if not recorder.audio_queue.empty():
                 audio_data = recorder.audio_queue.get()
-                
+
                 # Process audio
                 transcript = await process_audio_chunk(audio_data)
                 if transcript.strip():
                     cprint(f"\n💭 You said: {transcript}", "cyan")
-                    
+
                     # Check if this needs knowledge base verification
                     needs_verification = needs_knowledge_base(transcript)
-                    
+
                     # If it needs verification, check knowledge base
                     if needs_verification:
                         can_answer = is_question_in_knowledge_base(transcript, KNOWLEDGE_BASE)
                     else:
                         can_answer = True  # Let AI use its general knowledge
-                    
+
                     if not can_answer:
                         # Log the unknown question
                         log_unknown_question(transcript)
-                        
+
                         # Prepare "I don't know" response
                         unknown_response = "I apologize, but I'm not sure about that. Please email moon@algotradecamp.com and we'll get that answered ASAP! 🌙✉️"
                         cprint("\n🤖 AI: " + unknown_response, "yellow")
-                        
+
                         # Play response and add to history
                         if unknown_response.strip():
                             success = await play_audio_response(unknown_response)
                             if success:
                                 recorder.processing = False
                                 cprint("\n🎤 Listening...", "cyan")
-                        
+
                         conversation_history.append({"role": "assistant", "content": unknown_response})
                         continue
-                    
+
                     # Detect language
                     try:
                         lang = langdetect.detect(transcript)
@@ -585,23 +585,23 @@ Key guidelines:
                             continue
                     except:
                         pass  # Continue if language detection fails
-                    
+
                     # Add to conversation history
                     conversation_history.append({"role": "user", "content": transcript})
-                    
+
                     # Get AI response
                     cprint("\n🤖 AI:", "green")
-                    
+
                     response = openai.chat.completions.create(
                         model=MODEL_NAME,
                         messages=conversation_history,
                         temperature=TEMPERATURE,
                         max_tokens=MAX_TOKENS
                     )
-                    
+
                     full_response = response.choices[0].message.content
                     cprint(full_response, "green")
-                    
+
                     # Play the response and resume listening near the end
                     if full_response.strip():
                         success = await play_audio_response(full_response)
@@ -609,17 +609,17 @@ Key guidelines:
                             # Resume audio processing before speech finishes
                             recorder.processing = False
                             cprint("\n🎤 Listening...", "cyan")
-                    
+
                     # Add AI response to history
                     conversation_history.append({"role": "assistant", "content": full_response})
-            
+
             await asyncio.sleep(0.1)  # Small delay to prevent CPU hogging
-            
+
     except KeyboardInterrupt:
         if 'recorder' in locals():
             recorder.stop_recording()
         cprint("\n\n👋 Call ended. Moon Dev's AI signing off! 🌙", "yellow")
-        
+
     except Exception as e:
         cprint(f"\n❌ Error in conversation: {str(e)}", "red")
         if hasattr(e, '__traceback__'):
@@ -632,23 +632,23 @@ if not TESTING_MODE:
     def answer_call():
         """Handle incoming calls"""
         resp = VoiceResponse()
-        
+
         # Welcome message
         resp.say("Welcome to Moon Dev's A.I. Assistant! 🌙", voice=VOICE_NAME)
-        
+
         # Gather speech input
-        gather = Gather(input='speech', 
+        gather = Gather(input='speech',
                        action='/handle-input',
                        method='POST',
                        language='en-US',
                        speechTimeout='auto')
-        
+
         gather.say("How can I help you today?", voice=VOICE_NAME)
         resp.append(gather)
-        
+
         # If no input received
         resp.redirect('/answer')
-        
+
         return str(resp)
 
     @app.route("/handle-input", methods=['POST'])
@@ -657,15 +657,15 @@ if not TESTING_MODE:
         try:
             # Get the speech input
             speech_result = request.values.get('SpeechResult', '')
-            
+
             if not speech_result:
                 resp = VoiceResponse()
                 resp.say("I didn't catch that. Could you please try again?", voice=VOICE_NAME)
                 resp.redirect('/answer')
                 return str(resp)
-                
+
             cprint(f"\n🎤 User said: {speech_result}", "cyan")
-            
+
             # Generate AI response
             response = openai.chat.completions.create(
                 model=MODEL_NAME,
@@ -674,16 +674,16 @@ if not TESTING_MODE:
                     {"role": "user", "content": speech_result}
                 ]
             )
-            
+
             response_text = response.choices[0].message.content
             cprint(f"\n🤖 AI response: {response_text}", "green")
-            
+
             # Create response
             resp = VoiceResponse()
-            
+
             # Say the response
             resp.say(response_text, voice=VOICE_NAME)
-            
+
             # Ask if they need anything else
             gather = Gather(input='speech',
                            action='/handle-input',
@@ -692,12 +692,12 @@ if not TESTING_MODE:
                            speechTimeout='auto')
             gather.say("Is there anything else you'd like to know?", voice=VOICE_NAME)
             resp.append(gather)
-            
+
             # If no input received
             resp.redirect('/answer')
-            
+
             return str(resp)
-            
+
         except Exception as e:
             cprint(f"❌ Error handling input: {str(e)}", "red")
             resp = VoiceResponse()
@@ -717,18 +717,18 @@ async def process_message(message):
     try:
         # Check if this needs knowledge base verification
         needs_verification = needs_knowledge_base(message)
-        
+
         # If it needs verification, check knowledge base
         if needs_verification:
             can_answer = is_question_in_knowledge_base(message, KNOWLEDGE_BASE)
         else:
             can_answer = True  # Let AI use its general knowledge
-        
+
         if not can_answer:
             # Log the unknown question
             log_unknown_question(message)
             return "I apologize, but I'm not sure about that. Please email moon@algotradecamp.com and we'll get that answered ASAP! 🌙✉️"
-        
+
         # Get AI response
         response = openai.chat.completions.create(
             model=MODEL_NAME,
@@ -753,9 +753,9 @@ Key guidelines:
             temperature=TEMPERATURE,
             max_tokens=MAX_TOKENS
         )
-        
+
         return response.choices[0].message.content
-        
+
     except Exception as e:
         cprint(f"❌ Error processing message: {str(e)}", "red")
         return "Sorry, I encountered an error. Please try again! 🙏"
@@ -764,7 +764,7 @@ def start_server():
     """Start the server based on mode"""
     try:
         cprint("\n🚀 Starting Moon Dev's Phone Agent...", "green")
-        
+
         if TESTING_MODE:
             # Run Streamlit web interface
             cprint("🌐 Running in web mode - starting Streamlit server...", "green")
@@ -775,16 +775,16 @@ def start_server():
             # Run Flask server for Twilio
             cprint("📞 Running in Twilio mode...", "green")
             cprint(f"📞 Twilio number: {TWILIO_PHONE_NUMBER}", "cyan")
-            
+
             # Print ngrok command for testing locally
             cprint("\n🔧 To test locally:", "yellow")
             cprint("1. Install ngrok: brew install ngrok", "yellow")
             cprint("2. Run: ngrok http 5000", "yellow")
             cprint("3. Copy the ngrok URL to your Twilio phone number's webhook", "yellow")
-            
+
             # Run the Flask app
             app.run(host='0.0.0.0', port=5000)
-        
+
     except Exception as e:
         cprint(f"\n❌ Error starting server: {str(e)}", "red")
         raise

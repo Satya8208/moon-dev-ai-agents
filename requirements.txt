@@ -53,6 +53,7 @@ certifi @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_53
 cffi==1.16.0
 char==0.1.2
 charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
+chromadb==1.0.1
 ckzg==2.1.1
 click==8.1.7
 cloudpickle==3.1.0
@@ -534,6 +535,7 @@ scikit-optimize==0.10.1
 scipy==1.13.1
 seaborn==0.13.2
 selenium==4.20.0
+sentence-transformers==3.0.0
 Send2Trash==1.8.3
 sgmllib3k==1.0.0
 shap==0.46.0

@@ -1,0 +1,201 @@
+{
+  "timestamp": "20251227_181349",
+  "strategies_tested": 3,
+  "models": [
+    "DeepSeek Coder",
+    "MiniMax M2.1",
+    "Kimi K2",
+    "Qwen 2.5 Coder"
+  ],
+  "results": [
+    {
+      "model": "DeepSeek Coder",
+      "model_id": "deepseek-coder",
+      "available": true,
+      "cost_per_1m_input": 0.14,
+      "cost_per_1m_output": 0.28,
+      "results": [
+        {
+          "strategy": "[TECHNIQUE:RSI_Reversal] RSI oversold reversal: Buy when RSI(14) crosses above 30 from below, sell when RSI crosses below 70 from above. Use ATR(10) for stop loss at 1.5x below entry.",
+          "success": true,
+          "time_seconds": 24.153911590576172,
+          "debug_iterations": 1,
+          "tokens_used": 542,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:MACD_Cross] MACD crossover trend: Buy when MACD line crosses above signal line and both are below zero, sell on opposite crossover. Hold for minimum 5 bars.",
+          "success": true,
+          "time_seconds": 22.22539710998535,
+          "debug_iterations": 1,
+          "tokens_used": 494,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:BB_Squeeze] Bollinger Band squeeze breakout: Enter long when price breaks above upper band after a squeeze (bandwidth < 0.05), exit when price returns to middle band.",
+          "success": true,
+          "time_seconds": 22.530455112457275,
+          "debug_iterations": 1,
+          "tokens_used": 507,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "model": "MiniMax M2.1",
+      "model_id": "minimax/minimax-m2.1",
+      "available": true,
+      "cost_per_1m_input": 0.2,
+      "cost_per_1m_output": 1.1,
+      "results": [
+        {
+          "strategy": "[TECHNIQUE:RSI_Reversal] RSI oversold reversal: Buy when RSI(14) crosses above 30 from below, sell when RSI crosses below 70 from above. Use ATR(10) for stop loss at 1.5x below entry.",
+          "success": true,
+          "time_seconds": 12.053826808929443,
+          "debug_iterations": 1,
+          "tokens_used": 655,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:MACD_Cross] MACD crossover trend: Buy when MACD line crosses above signal line and both are below zero, sell on opposite crossover. Hold for minimum 5 bars.",
+          "success": true,
+          "time_seconds": 18.754383325576782,
+          "debug_iterations": 1,
+          "tokens_used": 497,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:BB_Squeeze] Bollinger Band squeeze breakout: Enter long when price breaks above upper band after a squeeze (bandwidth < 0.05), exit when price returns to middle band.",
+          "success": false,
+          "time_seconds": 11.41676926612854,
+          "debug_iterations": 5,
+          "tokens_used": 434,
+          "metrics": {},
+          "error": "Traceback (most recent call last):\n  File \"C:\\Users\\satya\\OneDrive\\Documents\\AI Projects\\moon-dev-ai-agents\\src\\data\\benchmarks\\benchmark_20251227_181349\\test_strategy.py\", line 3, in <module>\n    imp"
+        }
+      ]
+    },
+    {
+      "model": "Kimi K2",
+      "model_id": "moonshotai/kimi-k2",
+      "available": true,
+      "cost_per_1m_input": 0.55,
+      "cost_per_1m_output": 2.2,
+      "results": [
+        {
+          "strategy": "[TECHNIQUE:RSI_Reversal] RSI oversold reversal: Buy when RSI(14) crosses above 30 from below, sell when RSI crosses below 70 from above. Use ATR(10) for stop loss at 1.5x below entry.",
+          "success": true,
+          "time_seconds": 14.835978507995605,
+          "debug_iterations": 1,
+          "tokens_used": 314,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:MACD_Cross] MACD crossover trend: Buy when MACD line crosses above signal line and both are below zero, sell on opposite crossover. Hold for minimum 5 bars.",
+          "success": true,
+          "time_seconds": 12.98021411895752,
+          "debug_iterations": 1,
+          "tokens_used": 392,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:BB_Squeeze] Bollinger Band squeeze breakout: Enter long when price breaks above upper band after a squeeze (bandwidth < 0.05), exit when price returns to middle band.",
+          "success": true,
+          "time_seconds": 9.095682382583618,
+          "debug_iterations": 1,
+          "tokens_used": 323,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "model": "Qwen 2.5 Coder",
+      "model_id": "qwen/qwen-2.5-coder-32b-instruct",
+      "available": true,
+      "cost_per_1m_input": 0.5,
+      "cost_per_1m_output": 1.5,
+      "results": [
+        {
+          "strategy": "[TECHNIQUE:RSI_Reversal] RSI oversold reversal: Buy when RSI(14) crosses above 30 from below, sell when RSI crosses below 70 from above. Use ATR(10) for stop loss at 1.5x below entry.",
+          "success": true,
+          "time_seconds": 71.4752585887909,
+          "debug_iterations": 1,
+          "tokens_used": 379,
+          "metrics": {
+            "return_pct": 0.0,
+            "sharpe": null,
+            "trades": 0,
+            "win_rate": null
+          },
+          "error": null
+        },
+        {
+          "strategy": "[TECHNIQUE:MACD_Cross] MACD crossover trend: Buy when MACD line crosses above signal line and both are below zero, sell on opposite crossover. Hold for minimum 5 bars.",
+          "success": false,
+          "time_seconds": 99.78644704818726,
+          "debug_iterations": 5,
+          "tokens_used": 3624,
+          "metrics": {},
+          "error": "  File \"C:\\Users\\satya\\OneDrive\\Documents\\AI Projects\\moon-dev-ai-agents\\src\\data\\benchmarks\\benchmark_20251227_181349\\test_strategy.py\", line 2\n    Okay, let's tackle this problem. The user wants a c"
+        },
+        {
+          "strategy": "[TECHNIQUE:BB_Squeeze] Bollinger Band squeeze breakout: Enter long when price breaks above upper band after a squeeze (bandwidth < 0.05), exit when price returns to middle band.",
+          "success": false,
+          "time_seconds": 78.48980808258057,
+          "debug_iterations": 5,
+          "tokens_used": 330,
+          "metrics": {},
+          "error": "C:\\Users\\satya\\OneDrive\\Documents\\AI Projects\\moon-dev-ai-agents\\src\\data\\benchmarks\\benchmark_20251227_181349\\test_strategy.py:30: UserWarning: Some prices are larger than initial cash value. Note th"
+        }
+      ]
+    }
+  ]
+}

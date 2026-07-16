@@ -1,0 +1,43 @@
+{
+  "generated_at": "2025-12-24T04:02:23.538532",
+  "summary": {
+    "total_techniques": 1,
+    "total_backtests": 1,
+    "overall_win_rate": 0.0,
+    "top_performers_count": 0,
+    "underperformers_count": 0
+  },
+  "techniques": [
+    {
+      "name": "Stoch Micro Snap",
+      "win_rate": 0.0,
+      "avg_return": -88.76,
+      "avg_sharpe": 0.0,
+      "attempts": 1,
+      "successes": 0,
+      "recent_returns": [
+        -88.755543
+      ],
+      "last_updated": "2025-12-24T04:02:23.519488",
+      "status": "under"
+    }
+  ],
+  "top_performers": [],
+  "underperformers": [],
+  "recommendations": [],
+  "config": {
+    "sync_on_startup": true,
+    "min_trades_for_significance": 3,
+    "lookback_days": 30,
+    "weight_adjustments": {
+      "win_rate_weight": 0.4,
+      "sharpe_weight": 0.3,
+      "recent_performance_weight": 0.2,
+      "diversity_weight": 0.1
+    },
+    "underperformer_threshold": 0.35,
+    "top_performer_threshold": 0.55,
+    "max_results_per_sync": 100,
+    "keep_underperformers": true
+  }
+}

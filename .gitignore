@@ -167,3 +167,64 @@ src/data/chat_agent/*.mov
 
 # Video Agent - Sora 2 generated videos
 src/data/video_agent/
+
+# Personal files
+Default Resume.pdf
+
+# Junk/error files
+nul
+{action_map.get(action
+
+# Potentially sensitive
+check_api_keys.py
+
+# Large 1-minute candle data files
+src/data/market_data/binance/*/**-1m.csv
+src/data/rbi/BTC-USD-1m.csv
+
+# Test/temp files
+temperature_test.py
+test_temperatures.py
+test_advisor_mode.py
+test_comparison.py
+test_fixes.py
+test_scalping_fixes.py
+compare_temperatures.py
+debug_deviation.py
+verify_engine.py
+fix_unicode.py
+src/data/temperature_tests/
+
+# Duplicate folder
+src/src/
+
+# Node modules (never commit)
+node_modules/
+**/node_modules/
+
+# Large files (exceed GitHub's 100MB limit)
+src/data/nirvana_nuts/osho_knowledge/chroma_db/
+src/data/nirvana_nuts/osho_knowledge/raw_books/*.pdf
+# Canonical local-only and generated outputs (Codex consolidation 2026-07-16)
+.claude/settings.local.json
+src/data/scalping_strategies/scalping_ideas.csv
+src/data/nirvana_nuts/scraped_tweets_with_urls.json
+src/agents/blackjack/ebook/output/
+src/data/blackjack/generated_articles/
+src/data/blackjack/generated_replies/
+src/data/blackjack/generated_threads/
+src/data/blackjack/generated_tweets/
+src/data/blackjack_twitter/generated_threads/
+src/data/blackjack_twitter/generated_tweets/
+src/data/nirvana_nuts/generated_articles/
+src/data/nirvana_nuts/generated_replies/
+src/data/nirvana_nuts/generated_threads/
+src/data/nirvana_nuts/generated_tweets/
+src/data/nirvana_nuts/osho_knowledge/processed/
+src/data/tweets/generated_tweets_*.txt
+src/data/osho_agent/output/
+src/data/osho_agent/processed/
+src/data/osho_agent/processed_log.json
+_ul
+_ul-*
+.private-local/

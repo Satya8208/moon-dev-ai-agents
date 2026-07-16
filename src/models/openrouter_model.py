@@ -91,14 +91,65 @@ class OpenRouterModel(BaseModel):
             "output_price": "See openrouter.ai/docs"
         },
 
+        # ============================================
+        # 🐍 CODING SPECIALISTS - For RBI Backtester
+        # ============================================
+
+        # MiniMax Models - Best price/performance for coding (Dec 2025)
+        "minimax/minimax-m2": {
+            "description": "MiniMax M2 - 230B MoE (10B active) - 1M context - 74% SWE-bench",
+            "input_price": "$0.20/1M tokens",
+            "output_price": "$1.10/1M tokens"
+        },
+        "minimax/minimax-m2.1": {
+            "description": "MiniMax M2.1 - Latest Dec 2025 - Best open-source coder",
+            "input_price": "$0.20/1M tokens",
+            "output_price": "$1.10/1M tokens"
+        },
+        "minimax/minimax-m2:free": {
+            "description": "MiniMax M2 FREE - Same model, free tier",
+            "input_price": "FREE",
+            "output_price": "FREE"
+        },
+
+        # Kimi K2 Models - Strong agentic coding
+        "moonshotai/kimi-k2": {
+            "description": "Kimi K2 - 1T MoE (32B active) - 131K context - 65.8% SWE-bench",
+            "input_price": "$0.55/1M tokens",
+            "output_price": "$2.20/1M tokens"
+        },
+        "moonshotai/kimi-k2-thinking": {
+            "description": "Kimi K2 Thinking - Extended reasoning chains",
+            "input_price": "$0.55/1M tokens",
+            "output_price": "$2.20/1M tokens"
+        },
+        "moonshotai/kimi-k2:free": {
+            "description": "Kimi K2 FREE - Same model, free tier",
+            "input_price": "FREE",
+            "output_price": "FREE"
+        },
+
+        # Qwen Coder Models - Alibaba's coding specialist
+        "qwen/qwen-2.5-coder-32b-instruct": {
+            "description": "Qwen 2.5 Coder 32B - Coding specialist - 128K context",
+            "input_price": "$0.50/1M tokens",
+            "output_price": "$1.50/1M tokens"
+        },
+
+        # DeepSeek via OpenRouter (for comparison)
+        "deepseek/deepseek-chat": {
+            "description": "DeepSeek Chat - General purpose - 64K context",
+            "input_price": "$0.14/1M tokens",
+            "output_price": "$0.28/1M tokens"
+        },
+        "deepseek/deepseek-coder": {
+            "description": "DeepSeek Coder - Code specialist - 64K context",
+            "input_price": "$0.14/1M tokens",
+            "output_price": "$0.28/1M tokens"
+        },
+
         # 🌙 Moon Dev: ADD MORE MODELS HERE!
         # Copy the format above and paste model info from https://openrouter.ai/docs
-        # Example:
-        # "provider/model-name": {
-        #     "description": "Model description - features - context window",
-        #     "input_price": "$X.XX/1M tokens",
-        #     "output_price": "$X.XX/1M tokens"
-        # },
     }
 
     def __init__(self, api_key: str, model_name: str = "google/gemini-2.5-flash", **kwargs):
@@ -107,6 +158,7 @@ class OpenRouterModel(BaseModel):
             raise ValueError("API key is empty or None")
 
         self.model_name = model_name
+        self.max_tokens = 4096  # 🌙 Moon Dev: Default max tokens for OpenRouter
         super().__init__(api_key, **kwargs)
 
     def initialize_client(self, **kwargs) -> None:

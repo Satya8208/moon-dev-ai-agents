@@ -1,0 +1,32 @@
+{
+  "timestamp": "20251227_180201",
+  "strategies_tested": 3,
+  "models": [
+    "DeepSeek Coder",
+    "MiniMax M2.1",
+    "Kimi K2",
+    "Qwen 2.5 Coder"
+  ],
+  "results": [
+    {
+      "model": "DeepSeek Coder",
+      "available": false,
+      "results": []
+    },
+    {
+      "model": "MiniMax M2.1",
+      "available": false,
+      "results": []
+    },
+    {
+      "model": "Kimi K2",
+      "available": false,
+      "results": []
+    },
+    {
+      "model": "Qwen 2.5 Coder",
+      "available": false,
+      "results": []
+    }
+  ]
+}

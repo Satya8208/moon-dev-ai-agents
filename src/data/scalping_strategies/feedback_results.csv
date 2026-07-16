@@ -1,0 +1,5 @@
+timestamp,strategy_name,technique,return_pct,sharpe,trades,success
+2025-12-24 04:01:13,StochasticSnapReversal,Stoch Micro Snap,-88.755543,0.0,1359,False
+2025-12-24 05:21:21,VortexReversal,Stop Hunt Reversal,1.577111,0.380608,6,True
+2025-12-24 20:35:45,VolumetricTrapFade,Failed Breakout Trap,-94.410441,0.0,2690,False
+2025-12-24 20:44:38,WickSnapReversal,Stop Hunt Reversal,0.0,0.0,0,False

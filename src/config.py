@@ -58,7 +58,7 @@ slippage = 199  # Slippage settings
 # Risk Management Settings 🛡️
 CASH_PERCENTAGE = 20  # Minimum % to keep in USDC as safety buffer (0-100)
 MAX_POSITION_PERCENTAGE = 30  # Maximum % allocation per position (0-100)
-STOPLOSS_PRICE = 1 # NOT USED YET 1/5/25    
+STOPLOSS_PRICE = 1 # NOT USED YET 1/5/25
 BREAKOUT_PRICE = .0001 # NOT USED YET 1/5/25
 SLEEP_AFTER_CLOSE = 600  # Prevent overtrading
 
@@ -96,10 +96,10 @@ DATA_TIMEFRAME = '1H'  # 1m, 3m, 5m, 15m, 30m, 1H, 2H, 4H, 6H, 8H, 12H, 1D, 3D, 
 SAVE_OHLCV_DATA = False  # 🌙 Set to True to save data permanently, False will only use temp data during run
 
 # AI Model Settings 🤖
-AI_MODEL = "claude-3-haiku-20240307"  # Model Options:
-                                     # - claude-3-haiku-20240307 (Fast, efficient Claude model)
-                                     # - claude-3-sonnet-20240229 (Balanced Claude model)
-                                     # - claude-3-opus-20240229 (Most powerful Claude model)
+AI_MODEL = "claude-sonnet-4-5-20250929"  # Model Options:
+                                     # - claude-sonnet-4-5-20250929 (Claude Sonnet 4.5 - Latest and best)
+                                     # - claude-opus-4-5-20251101 (Claude Opus 4.5 - Most powerful)
+                                     # - gpt-5-mini (GPT-5 Mini - Fast and capable)
 AI_MAX_TOKENS = 1024  # Max tokens for response
 AI_TEMPERATURE = 0.7  # Creativity vs precision (0-1)
 

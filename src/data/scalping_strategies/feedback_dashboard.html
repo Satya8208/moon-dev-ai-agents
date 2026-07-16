@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌙 Moon Dev's Feedback Dashboard</title>
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #21262d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+            --accent-blue: #58a6ff;
+            --accent-purple: #a371f7;
+            --border-color: #30363d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1f25 100%);
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+        
+        .summary-card .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+        
+        .summary-card .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .summary-card.success .value { color: var(--accent-green); }
+        .summary-card.warning .value { color: var(--accent-yellow); }
+        .summary-card.danger .value { color: var(--accent-red); }
+        
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .technique-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: background 0.2s;
+        }
+        
+        .technique-card:hover {
+            background: var(--bg-card-hover);
+        }
+        
+        .technique-card.top {
+            border-left: 3px solid var(--accent-green);
+        }
+        
+        .technique-card.under {
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .technique-card .name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .technique-card .stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .technique-card .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .win-rate-bar {
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .win-rate-bar .fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        .win-rate-bar .fill.good { background: var(--accent-green); }
+        .win-rate-bar .fill.warning { background: var(--accent-yellow); }
+        .win-rate-bar .fill.bad { background: var(--accent-red); }
+        
+        .recommendations {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recommendations li {
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid var(--accent-purple);
+        }
+        
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(88, 166, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .timestamp {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌙 Feedback Dashboard</h1>
+        <p class="subtitle">Scalping Agent Technique Performance Tracker</p>
+    </div>
+    
+    <div id="content">
+        <div class="loading">Loading dashboard data...</div>
+    </div>
+    
+    <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+    
+    <script>
+        async function loadData() {
+            const content = document.getElementById('content');
+            content.innerHTML = '<div class="loading">Loading dashboard data...</div>';
+            
+            try {
+                const response = await fetch('dashboard_data.json');
+                if (!response.ok) throw new Error('Data not found');
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (e) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <h2>📭 No Dashboard Data Available</h2>
+                        <p style="margin-top: 1rem;">Run the feedback sync first:</p>
+                        <code style="display: block; margin-top: 0.5rem; padding: 1rem; background: #161b22; border-radius: 0.5rem;">
+                            python src/agents/feedback_connector.py --all
+                        </code>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderDashboard(data) {
+            const content = document.getElementById('content');
+            const summary = data.summary || {};
+            const techniques = data.techniques || [];
+            const topPerformers = data.top_performers || [];
+            const underperformers = data.underperformers || [];
+            const recommendations = data.recommendations || [];
+            
+            let html = `
+                <!-- Summary Cards -->
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="value">${summary.total_techniques || 0}</div>
+                        <div class="label">Techniques Tracked</div>
+                    </div>
+                    <div class="summary-card success">
+                        <div class="value">${summary.total_backtests || 0}</div>
+                        <div class="label">Total Backtests</div>
+                    </div>
+                    <div class="summary-card ${summary.overall_win_rate >= 50 ? 'success' : 'warning'}">
+                        <div class="value">${summary.overall_win_rate || 0}%</div>
+                        <div class="label">Overall Win Rate</div>
+                    </div>
+                    <div class="summary-card success">
+                        <div class="value">${summary.top_performers_count || 0}</div>
+                        <div class="label">Top Performers</div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations -->
+                ${recommendations.length > 0 ? `
+                <div class="section">
+                    <h2>💡 Insights & Recommendations</h2>
+                    <ul class="recommendations">
+                        ${recommendations.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <!-- Top Performers -->
+                ${topPerformers.length > 0 ? `
+                <div class="section">
+                    <h2>🏆 Top Performers</h2>
+                    <div class="technique-grid">
+                        ${topPerformers.map(t => renderTechniqueCard(t, 'top')).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <!-- Underperformers -->
+                ${underperformers.length > 0 ? `
+                <div class="section">
+                    <h2>📉 Need Improvement</h2>
+                    <div class="technique-grid">
+                        ${underperformers.map(t => renderTechniqueCard(t, 'under')).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <!-- All Techniques -->
+                <div class="section">
+                    <h2>📊 All Techniques (${techniques.length})</h2>
+                    ${techniques.length > 0 ? `
+                    <div class="technique-grid">
+                        ${techniques.map(t => renderTechniqueCard(t, t.status)).join('')}
+                    </div>
+                    ` : '<div class="empty-state">No technique data yet</div>'}
+                </div>
+                
+                <div class="timestamp">
+                    Last updated: ${data.generated_at ? new Date(data.generated_at).toLocaleString() : 'Unknown'}
+                </div>
+            `;
+            
+            content.innerHTML = html;
+        }
+        
+        function renderTechniqueCard(t, status) {
+            const winRate = t.win_rate || 0;
+            const barClass = winRate >= 55 ? 'good' : (winRate >= 35 ? 'warning' : 'bad');
+            
+            return `
+                <div class="technique-card ${status}">
+                    <div class="name">${t.technique || t.name || 'Unknown'}</div>
+                    <div class="stats">
+                        <div class="stat">📊 ${winRate}% win</div>
+                        <div class="stat">📈 ${(t.avg_return || 0).toFixed(1)}% avg</div>
+                        <div class="stat">🎯 ${t.attempts || 0} tests</div>
+                    </div>
+                    <div class="win-rate-bar">
+                        <div class="fill ${barClass}" style="width: ${Math.min(winRate, 100)}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Load data on page load
+        loadData();
+        
+        // Auto-refresh every 60 seconds
+        setInterval(loadData, 60000);
+    </script>
+</body>
+</html>
