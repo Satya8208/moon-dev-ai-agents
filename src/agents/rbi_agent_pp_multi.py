@@ -71,7 +71,7 @@ print("✅ Environment variables loaded")
 
 # Add config values directly to avoid import issues
 AI_TEMPERATURE = 0.7
-AI_MAX_TOKENS = 16000  # 🌙 Moon Dev: Increased for complete backtest code generation with execution block!
+AI_MAX_TOKENS = 8000  # 🌙 Moon Dev: DeepSeek limit is 8192, using 8000 to be safe
 
 # Import model factory with proper path handling
 import sys
@@ -141,29 +141,33 @@ rate_limiter = Semaphore(MAX_PARALLEL_THREADS)
 # ============================================
 # 🌙 Moon Dev's MODEL SELECTION - Easy Switch!
 # ============================================
-# Uncomment the model you want to use, comment out the other!
-# Option 1: Claude Opus 4.5 (Anthropic's most powerful model!)
-# Option 2: Grok 4 Fast Reasoning (xAI's blazing fast model!)
+# Options: Claude Opus, Grok 4, DeepSeek
+# DeepSeek recommended for high parallelism (18 threads) - high rate limits, cheap, great at code!
 
-# 🧠 RESEARCH
-RESEARCH_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
+# 🧠 RESEARCH - DeepSeek Reasoner (shows thinking process, great for analysis)
+# RESEARCH_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
 # RESEARCH_CONFIG = {"type": "xai", "name": "grok-4-fast-reasoning"}
+RESEARCH_CONFIG = {"type": "deepseek", "name": "deepseek-reasoner"}
 
-# 💻 BACKTEST CODE GEN
-BACKTEST_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
+# 💻 BACKTEST CODE GEN - DeepSeek Coder (specialized for code generation)
+# BACKTEST_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
 # BACKTEST_CONFIG = {"type": "xai", "name": "grok-4-fast-reasoning"}
+BACKTEST_CONFIG = {"type": "deepseek", "name": "deepseek-coder"}
 
-# 🐛 DEBUGGING
-DEBUG_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
+# 🐛 DEBUGGING - DeepSeek Reasoner (thinking process helps debug)
+# DEBUG_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
 # DEBUG_CONFIG = {"type": "xai", "name": "grok-4-fast-reasoning"}
+DEBUG_CONFIG = {"type": "deepseek", "name": "deepseek-reasoner"}
 
-# 📦 PACKAGE CHECK
-PACKAGE_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
+# 📦 PACKAGE CHECK - DeepSeek Coder (understands imports/dependencies)
+# PACKAGE_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
 # PACKAGE_CONFIG = {"type": "xai", "name": "grok-4-fast-reasoning"}
+PACKAGE_CONFIG = {"type": "deepseek", "name": "deepseek-coder"}
 
-# 🚀 OPTIMIZATION
-OPTIMIZE_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
+# 🚀 OPTIMIZATION - DeepSeek Coder (code optimization)
+# OPTIMIZE_CONFIG = {"type": "claude", "name": "claude-opus-4-5-20251101"}
 # OPTIMIZE_CONFIG = {"type": "xai", "name": "grok-4-fast-reasoning"}
+OPTIMIZE_CONFIG = {"type": "deepseek", "name": "deepseek-coder"}
 
 # 🎯 PROFIT TARGET CONFIGURATION
 TARGET_RETURN = 50  # Target return in %
@@ -197,6 +201,11 @@ EXECUTION_DIR = None
 PROCESSED_IDEAS_LOG = DATA_DIR / "processed_ideas.log"
 STATS_CSV = DATA_DIR / "backtest_stats.csv"  # Moon Dev's stats tracker!
 IDEAS_FILE = DATA_DIR / "ideas.txt"
+
+# v6.5 - Feedback loop: dedicated CSV for scalping results
+# DATA_DIR is src/data/rbi_pp_multi, so parent gets us to src/data
+SCALPING_DATA_DIR = DATA_DIR.parent / "scalping_strategies"
+FEEDBACK_CSV = SCALPING_DATA_DIR / "feedback_results.csv"
 
 def update_date_folders():
     """
@@ -443,7 +452,7 @@ STRATEGY_DETAILS:
 Remember: The name must be UNIQUE and SPECIFIC to this strategy's approach!
 """
 
-BACKTEST_PROMPT = """
+BACKTEST_PROMPT = f"""
 You are Moon Dev's Backtest AI 🌙
 
 🚨 CRITICAL: Your code MUST have TWO parts:
@@ -508,11 +517,11 @@ RISK MANAGEMENT:
 
 If you need indicators use TA lib or pandas TA.
 
-Use this data path: src/data/rbi/BTC-USD-15m.csv (relative to project root)
+Use this data path: src/data/market_data/binance/BTCUSDT/BTC-USDT-5m.csv (relative to project root)
 the above data head looks like below
 datetime, open, high, low, close, volume,
 2023-01-01 00:00:00, 16531.83, 16532.69, 16509.11, 16510.82, 231.05338022,
-2023-01-01 00:15:00, 16509.78, 16534.66, 16509.11, 16533.43, 308.12276951,
+2023-01-01 00:05:00, 16509.78, 16534.66, 16509.11, 16533.43, 308.12276951,
 
 Always add plenty of Moon Dev themed debug prints with emojis to make debugging easier! 🌙 ✨ 🚀
 
@@ -534,7 +543,7 @@ if __name__ == "__main__":
 
     # FIRST: Run standard backtest and print stats (REQUIRED for parsing!)
     print("\\n🌙 Running initial backtest for stats extraction...")
-    data = pd.read_csv('src/data/rbi/BTC-USD-15m.csv')  # 🌙 Moon Dev: Relative path from project root!
+    data = pd.read_csv('src/data/market_data/binance/BTCUSDT/BTC-USDT-5m.csv')  # 🌙 Moon Dev: Relative path from project root!
     data['datetime'] = pd.to_datetime(data['datetime'])
     data = data.set_index('datetime')
     data.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
@@ -568,7 +577,7 @@ if __name__ == "__main__":
 
     if results is not None:
         print("\\n✅ Multi-data testing complete! Results saved in ./results/ folder")
-        print(f"📊 Tested on {len(results)} different data sources")
+        print(f"📊 Tested on {{len(results)}} different data sources")
     else:
         print("\\n⚠️ No results generated - check for errors above")
 ```
@@ -821,7 +830,7 @@ def parse_all_stats_from_output(stdout: str, thread_id: int) -> dict:
         thread_print(f"❌ Error parsing stats: {str(e)}", thread_id, "red")
         return stats
 
-def log_stats_to_csv(strategy_name: str, thread_id: int, stats: dict, file_path: str, data_source: str = "BTC-USD-15m.csv") -> None:
+def log_stats_to_csv(strategy_name: str, thread_id: int, stats: dict, file_path: str, data_source: str = "ideas.txt") -> None:
     """
     🌙 Moon Dev's CSV Logger - Thread-safe stats logging!
     Appends backtest stats to CSV for easy analysis and comparison
@@ -877,6 +886,68 @@ def log_stats_to_csv(strategy_name: str, thread_id: int, stats: dict, file_path:
 
     except Exception as e:
         thread_print(f"❌ Error logging to CSV: {str(e)}", thread_id, "red")
+
+
+def extract_technique_from_idea(idea: str) -> str:
+    """
+    🌙 v6.5 - Extract technique name from scalping agent's [TECHNIQUE:name] prefix.
+    Returns technique name or 'unknown' if not found.
+    """
+    import re
+    match = re.search(r'\[TECHNIQUE:([^\]]+)\]', idea)
+    if match:
+        return match.group(1).strip()
+    return "unknown"
+
+
+def log_to_feedback_csv(strategy_name: str, technique: str, stats: dict, thread_id: int) -> None:
+    """
+    🌙 v6.5 - Feedback Loop Logger - Log ALL backtest results for learning!
+    Unlike log_stats_to_csv (threshold only), this logs every result for technique performance.
+    
+    Args:
+        strategy_name: Name of the strategy
+        technique: Technique from scalping agent (e.g., "BB Extreme Touch")
+        stats: Dict of parsed stats (return_pct, sharpe, trades, etc.)
+        thread_id: Thread ID
+    """
+    try:
+        # Ensure scalping data directory exists
+        SCALPING_DATA_DIR.mkdir(parents=True, exist_ok=True)
+        
+        with file_lock:
+            # Create CSV with headers if it doesn't exist
+            file_exists = FEEDBACK_CSV.exists()
+            
+            with open(FEEDBACK_CSV, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                
+                # Write header if new file
+                if not file_exists:
+                    writer.writerow([
+                        'timestamp', 'strategy_name', 'technique',
+                        'return_pct', 'sharpe', 'trades', 'success'
+                    ])
+                
+                # Extract stats
+                return_pct = stats.get('return_pct', 0) or 0
+                sharpe = stats.get('sharpe', 0) or 0
+                trades = stats.get('trades', 0) or 0
+                success = return_pct > 0
+                
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                
+                # Write row
+                writer.writerow([
+                    timestamp, strategy_name, technique,
+                    return_pct, sharpe, trades, success
+                ])
+            
+            thread_print(f"📊 Feedback logged: {technique} → {return_pct:.2f}%", thread_id, "cyan")
+    
+    except Exception as e:
+        thread_print(f"⚠️ Feedback logging error: {str(e)}", thread_id, "yellow")
+
 
 def parse_and_log_multi_data_results(strategy_name: str, thread_id: int, backtest_file_path: Path) -> None:
     """
@@ -976,13 +1047,13 @@ def save_backtest_if_threshold_met(code: str, stats: dict, strategy_name: str, i
         # Save to WORKING folder
         working_file = WORKING_BACKTEST_DIR / filename
         with file_lock:
-            with open(working_file, 'w') as f:
+            with open(working_file, 'w', encoding='utf-8') as f:
                 f.write(code)
 
         # Save to FINAL folder (same logic per Moon Dev's request)
         final_file = FINAL_BACKTEST_DIR / filename
         with file_lock:
-            with open(final_file, 'w') as f:
+            with open(final_file, 'w', encoding='utf-8') as f:
                 f.write(code)
 
         thread_print(f"💾 Saved to working & final! Return: {return_pct:.2f}%", thread_id, "green", attrs=['bold'])
@@ -1031,7 +1102,7 @@ def execute_backtest(file_path: str, strategy_name: str, thread_id: int) -> dict
     # Save execution results with thread ID
     result_file = EXECUTION_DIR / f"T{thread_id:02d}_{strategy_name}_{datetime.now().strftime('%H%M%S')}.json"
     with file_lock:
-        with open(result_file, 'w') as f:
+        with open(result_file, 'w', encoding='utf-8') as f:
             json.dump(output, f, indent=2)
 
     if output['success']:
@@ -1072,12 +1143,12 @@ def log_processed_idea(idea: str, strategy_name: str, thread_id: int) -> None:
     with file_lock:
         if not PROCESSED_IDEAS_LOG.exists():
             PROCESSED_IDEAS_LOG.parent.mkdir(parents=True, exist_ok=True)
-            with open(PROCESSED_IDEAS_LOG, 'w') as f:
+            with open(PROCESSED_IDEAS_LOG, 'w', encoding='utf-8') as f:
                 f.write("# Moon Dev's RBI AI - Processed Ideas Log 🌙\n")
                 f.write("# Format: hash,timestamp,thread_id,strategy_name,idea_snippet\n")
 
         idea_snippet = idea[:50].replace(',', ';') + ('...' if len(idea) > 50 else '')
-        with open(PROCESSED_IDEAS_LOG, 'a') as f:
+        with open(PROCESSED_IDEAS_LOG, 'a', encoding='utf-8') as f:
             f.write(f"{idea_hash},{timestamp},T{thread_id:02d},{strategy_name},{idea_snippet}\n")
 
     thread_print(f"📝 Logged processed idea: {strategy_name}", thread_id, "green")
@@ -1220,7 +1291,7 @@ def research_strategy(content, thread_id):
         # Add thread ID to filename
         filepath = RESEARCH_DIR / f"T{thread_id:02d}_{strategy_name}_strategy.txt"
         with file_lock:
-            with open(filepath, 'w') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(output)
 
         return output, strategy_name
@@ -1242,7 +1313,7 @@ def create_backtest(strategy, strategy_name, thread_id):
 
         filepath = BACKTEST_DIR / f"T{thread_id:02d}_{strategy_name}_BT.py"
         with file_lock:
-            with open(filepath, 'w') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(output)
 
         thread_print(f"🔥 Backtest code saved", thread_id, "green")
@@ -1265,7 +1336,7 @@ def package_check(backtest_code, strategy_name, thread_id):
 
         filepath = PACKAGE_DIR / f"T{thread_id:02d}_{strategy_name}_PKG.py"
         with file_lock:
-            with open(filepath, 'w') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(output)
 
         thread_print(f"📦 Package check complete", thread_id, "green")
@@ -1292,7 +1363,7 @@ def debug_backtest(backtest_code, error_message, strategy_name, thread_id, itera
         # Only threshold-passing backtests go to FINAL/WORKING folders!
         filepath = BACKTEST_DIR / f"T{thread_id:02d}_{strategy_name}_DEBUG_v{iteration}.py"
         with file_lock:
-            with open(filepath, 'w') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(output)
 
         thread_print(f"🔧 Debug iteration {iteration} complete", thread_id, "green")
@@ -1320,7 +1391,7 @@ def optimize_strategy(backtest_code, current_return, target_return, strategy_nam
 
         filepath = OPTIMIZATION_DIR / f"T{thread_id:02d}_{strategy_name}_OPT_v{iteration}.py"
         with file_lock:
-            with open(filepath, 'w') as f:
+            with open(filepath, 'w', encoding='utf-8') as f:
                 f.write(output)
 
         thread_print(f"🎯 Optimization {iteration} complete", thread_id, "green")
@@ -1344,6 +1415,9 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
 
         # 🌙 Moon Dev: Extract content from PDF/YouTube if URL provided
         processed_idea = extract_content_from_url(idea, thread_id)
+
+        # v6.5 - Extract technique from scalping agent's [TECHNIQUE:name] prefix
+        technique_name = extract_technique_from_idea(idea)
 
         # Phase 1: Research
         strategy, strategy_name = research_strategy(processed_idea, thread_id)
@@ -1399,6 +1473,10 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
 
                         if not debugged_code:
                             thread_print("❌ Debug AI failed", thread_id, "red")
+                            # v6.5 - Log failed strategy to feedback
+                            if technique_name != "unknown":
+                                failed_stats = {'return_pct': 0, 'sharpe': 0, 'trades': 0}
+                                log_to_feedback_csv(strategy_name, technique_name, failed_stats, thread_id)
                             return {"success": False, "error": "Debug failed", "thread_id": thread_id}
 
                         current_code = debugged_code
@@ -1407,6 +1485,10 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
                         continue
                     else:
                         thread_print(f"❌ Max debug iterations reached", thread_id, "red")
+                        # v6.5 - Log failed strategy to feedback (learn from failures)
+                        if technique_name != "unknown":
+                            failed_stats = {'return_pct': 0, 'sharpe': 0, 'trades': 0}
+                            log_to_feedback_csv(strategy_name, technique_name, failed_stats, thread_id)
                         return {"success": False, "error": "Max debug iterations", "thread_id": thread_id}
                 else:
                     # SUCCESS! Code executes with trades!
@@ -1416,11 +1498,15 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
                     all_stats = parse_all_stats_from_output(execution_result['stdout'], thread_id)
                     current_return = all_stats.get('return_pct')
 
+                    # v6.5 - Log to feedback CSV for technique performance learning
+                    if technique_name != "unknown":
+                        log_to_feedback_csv(strategy_name, technique_name, all_stats, thread_id)
+
                     if current_return is None:
                         thread_print("⚠️ Could not parse return", thread_id, "yellow")
                         final_file = FINAL_BACKTEST_DIR / f"T{thread_id:02d}_{strategy_name}_BTFinal_WORKING.py"
                         with file_lock:
-                            with open(final_file, 'w') as f:
+                            with open(final_file, 'w', encoding='utf-8') as f:
                                 f.write(current_code)
                         break
 
@@ -1451,7 +1537,7 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
                         # 🌙 Moon Dev: Save to OPTIMIZATION_DIR for target hits
                         final_file = OPTIMIZATION_DIR / f"T{thread_id:02d}_{strategy_name}_TARGET_HIT_{current_return}pct.py"
                         with file_lock:
-                            with open(final_file, 'w') as f:
+                            with open(final_file, 'w', encoding='utf-8') as f:
                                 f.write(current_code)
 
                         return {
@@ -1533,7 +1619,7 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
 
                                     final_file = OPTIMIZATION_DIR / f"T{thread_id:02d}_{strategy_name}_TARGET_HIT_{new_return}pct.py"
                                     with file_lock:
-                                        with open(final_file, 'w') as f:
+                                        with open(final_file, 'w', encoding='utf-8') as f:
                                             f.write(best_code)
 
                                     return {
@@ -1550,7 +1636,7 @@ def process_trading_idea_parallel(idea: str, thread_id: int) -> dict:
 
                         best_file = OPTIMIZATION_DIR / f"T{thread_id:02d}_{strategy_name}_BEST_{best_return}pct.py"
                         with file_lock:
-                            with open(best_file, 'w') as f:
+                            with open(best_file, 'w', encoding='utf-8') as f:
                                 f.write(best_code)
 
                         return {
@@ -1758,7 +1844,7 @@ def main(ideas_file_path=None, run_name=None):
     if not IDEAS_FILE.exists():
         cprint(f"❌ ideas.txt not found! Creating template...", "red")
         IDEAS_FILE.parent.mkdir(parents=True, exist_ok=True)
-        with open(IDEAS_FILE, 'w') as f:
+        with open(IDEAS_FILE, 'w', encoding='utf-8') as f:
             f.write("# Add your trading ideas here (one per line)\n")
             f.write("# Can be YouTube URLs, PDF links, or text descriptions\n")
             f.write("# Lines starting with # are ignored\n\n")

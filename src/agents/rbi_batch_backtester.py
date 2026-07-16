@@ -84,9 +84,9 @@ def generate_backtest_code(strategy_text: str) -> str:
     # Try primary config, then fallbacks if unavailable
     candidate_configs = [
         rbi_agent.BACKTEST_CONFIG,
-        {"type": "openai", "name": "o1-mini"},
-        {"type": "openai", "name": "gpt-4o"},
-        {"type": "claude", "name": "claude-3-haiku"},
+        {"type": "openai", "name": "gpt-5-mini"},
+        {"type": "openai", "name": "o3-mini"},
+        {"type": "claude", "name": "claude-sonnet-4-5-20250929"},
         {"type": "deepseek", "name": "deepseek-chat"},
         {"type": "ollama", "name": "llama3.2"},
         {"type": "ollama", "name": "deepseek-r1"},
@@ -125,9 +125,9 @@ def package_fix_code(code: str) -> str:
 
     candidate_configs = [
         rbi_agent.PACKAGE_CONFIG,
-        {"type": "openai", "name": "o1-mini"},
-        {"type": "openai", "name": "gpt-4o"},
-        {"type": "claude", "name": "claude-3-haiku"},
+        {"type": "openai", "name": "gpt-5-mini"},
+        {"type": "openai", "name": "o3-mini"},
+        {"type": "claude", "name": "claude-sonnet-4-5-20250929"},
         {"type": "deepseek", "name": "deepseek-chat"},
         {"type": "ollama", "name": "llama3.2"},
         {"type": "ollama", "name": "deepseek-r1"},
@@ -159,12 +159,12 @@ def debug_fix_code(code: str, strategy_text: str | None = None) -> str:
     context = f"Here's the backtest code to debug:\n\n{code}"
     if strategy_text:
         context += f"\n\nOriginal strategy for reference:\n{strategy_text}"
-    
+
     candidate_configs = [
         rbi_agent.DEBUG_CONFIG,
-        {"type": "openai", "name": "o1-mini"},
-        {"type": "openai", "name": "gpt-4o"},
-        {"type": "claude", "name": "claude-3-haiku"},
+        {"type": "openai", "name": "gpt-5-mini"},
+        {"type": "openai", "name": "o3-mini"},
+        {"type": "claude", "name": "claude-sonnet-4-5-20250929"},
         {"type": "deepseek", "name": "deepseek-chat"},
         {"type": "ollama", "name": "deepseek-r1"},
         {"type": "ollama", "name": "llama3.2"},

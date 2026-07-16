@@ -6,8 +6,8 @@ This agent randomly monitors speech samples and provides focus assessments.
 """
 
 # Use local DeepSeek flag
-# available free while moon dev is streaming: https://www.youtube.com/@moondevonyt 
-USE_LOCAL_DEEPSEEK = False  
+# available free while moon dev is streaming: https://www.youtube.com/@moondevonyt
+USE_LOCAL_DEEPSEEK = False
 
 import sys
 from pathlib import Path
@@ -92,7 +92,7 @@ cprint(f"📝 .env Path: {env_path}", "cyan")
 
 # Model override settings
 MODEL_TYPE = "claude"  # Choose from model types above
-MODEL_NAME = "claude-3-haiku-20240307"  # Choose from models above
+MODEL_NAME = "claude-sonnet-4-5-20250929"  # Claude Sonnet 4.5 - Latest
 
 # Configuration for faster testing
 MIN_INTERVAL_MINUTES = 2  # Less than a second
@@ -116,7 +116,7 @@ AUDIO_DIR = Path("src/audio")
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
 # Test transcript for debugging
-TEST_TRANSCRIPT = """Hey Moon Dev here, I'm working on implementing the new trading algorithm using Python. 
+TEST_TRANSCRIPT = """Hey Moon Dev here, I'm working on implementing the new trading algorithm using Python.
 The RSI calculations look good but I need to optimize the moving average calculations."""
 
 # Focus prompt optimized for all models
@@ -145,25 +145,25 @@ class FocusAgent:
     def __init__(self):
         """Initialize the Focus Agent"""
         # Environment variables should already be loaded from project root
-        
+
         self._announce_model()  # Announce at startup
-        
+
         # Debug environment variables (without showing values)
         for key in ["OPENAI_KEY", "ANTHROPIC_KEY", "GEMINI_KEY", "GROQ_API_KEY", "DEEPSEEK_KEY"]:
             if os.getenv(key):
                 cprint(f"✅ Found {key}", "green")
             else:
                 cprint(f"❌ Missing {key}", "red")
-        
+
         # Initialize model using factory
         self.model_factory = model_factory
         self.model = self.model_factory.get_model(MODEL_TYPE, MODEL_NAME)
-        
+
         if not self.model:
             raise ValueError(f"🚨 Could not initialize {MODEL_TYPE} {MODEL_NAME} model! Check API key and model availability.")
-        
+
         self._announce_model()  # Announce after initialization
-        
+
         # Print model info with pricing if available
         if MODEL_TYPE == "openai":
             model_info = self.model.AVAILABLE_MODELS.get(MODEL_NAME, {})
@@ -172,44 +172,44 @@ class FocusAgent:
             cprint(f"💰 Pricing:", "yellow")
             cprint(f"  ├─ Input: {model_info.get('input_price', '')}", "yellow")
             cprint(f"  └─ Output: {model_info.get('output_price', '')}", "yellow")
-        
+
         # Initialize voice client
         openai_key = os.getenv("OPENAI_KEY")
         if not openai_key:
             raise ValueError("🚨 OPENAI_KEY not found in environment variables!")
         self.openai_client = openai.OpenAI(api_key=openai_key)
 
-        
+
         # Initialize Anthropic for Claude models
         anthropic_key = os.getenv("ANTHROPIC_KEY")
         if not anthropic_key:
             raise ValueError("🚨 ANTHROPIC_KEY not found in environment variables!")
         self.anthropic_client = Anthropic(api_key=anthropic_key)
-        
+
         # Initialize Google Speech client
         google_creds = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         if not google_creds:
             raise ValueError("🚨 GOOGLE_APPLICATION_CREDENTIALS not found!")
         self.speech_client = speech.SpeechClient()
-        
+
         cprint("🎯 Moon Dev's Focus Agent initialized!", "green")
-        
+
         self.is_recording = False
         self.current_transcript = []
-        
+
         # Add data directory path
         self.data_dir = Path("/Users/md/Dropbox/dev/github/moon-dev-ai-agents-for-trading/src/data")
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.focus_log_path = self.data_dir / "focus_history.csv"
-        
+
         # Initialize focus history DataFrame if file doesn't exist
         if not self.focus_log_path.exists():
             self._create_focus_log()
-            
+
         cprint("📊 Focus history will be logged to: " + str(self.focus_log_path), "green")
-        
+
         self._check_schedule()
-        
+
     def _check_schedule(self):
         """Check if current time is within scheduled hours"""
         current_time = datetime.now().time()
@@ -217,11 +217,11 @@ class FocusAgent:
             cprint(f"\n🌙 Moon Dev's Focus Agent is scheduled to run between {SCHEDULE_START.strftime('%I:%M %p')} and {SCHEDULE_END.strftime('%I:%M %p')}", "yellow")
             cprint("😴 Going to sleep until next scheduled time...", "yellow")
             raise SystemExit(0)
-        
+
     def _get_random_interval(self):
         """Get random interval between MIN and MAX minutes"""
         return uniform(MIN_INTERVAL_MINUTES * 60, MAX_INTERVAL_MINUTES * 60)
-        
+
     def record_audio(self):
         """Record audio for specified duration"""
         config = speech.RecognitionConfig(
@@ -236,7 +236,7 @@ class FocusAgent:
             config=config,
             interim_results=True  # Get interim results for better completeness
         )
-        
+
         def audio_generator():
             audio = pyaudio.PyAudio()
             stream = audio.open(
@@ -246,7 +246,7 @@ class FocusAgent:
                 input=True,
                 frames_per_buffer=AUDIO_CHUNK_SIZE
             )
-            
+
             start_time = time_lib.time()
             try:
                 while time_lib.time() - start_time < RECORDING_DURATION:
@@ -258,28 +258,28 @@ class FocusAgent:
                 stream.stop_stream()
                 stream.close()
                 audio.terminate()
-        
+
         try:
             self.is_recording = True
             self.current_transcript = []
-            
+
             requests = (speech.StreamingRecognizeRequest(audio_content=chunk)
                       for chunk in audio_generator())
-            
+
             responses = self.speech_client.streaming_recognize(
                 config=streaming_config,
                 requests=requests
             )
-            
+
             for response in responses:
                 if response.results:
                     for result in response.results:
                         if result.is_final:
                             self.current_transcript.append(result.alternatives[0].transcript)
-            
+
             # Small delay to ensure we get the complete transcript
             time_lib.sleep(0.5)
-                            
+
         except Exception as e:
             cprint(f"❌ Error recording audio: {str(e)}", "red")
         finally:
@@ -289,10 +289,10 @@ class FocusAgent:
         """Announce message with optional voice"""
         try:
             cprint(f"\n🗣️ {message}", "cyan")
-            
+
             if not force_voice:
                 return
-                
+
             # Generate speech directly to memory and play
             response = self.openai_client.audio.speech.create(
                 model=VOICE_MODEL,
@@ -300,7 +300,7 @@ class FocusAgent:
                 speed=VOICE_SPEED,
                 input=message
             )
-            
+
             # Create temporary file in system temp directory
             with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as temp_file:
                 for chunk in response.iter_bytes():
@@ -313,10 +313,10 @@ class FocusAgent:
             else:
                 os.system(f"start {temp_path}")
                 time_lib.sleep(5)
-            
+
             # Cleanup temp file
             os.unlink(temp_path)
-            
+
         except Exception as e:
             cprint(f"❌ Error in announcement: {str(e)}", "red")
 
@@ -327,7 +327,7 @@ class FocusAgent:
             cprint(f"\n🔍 Analyzing transcript:", "cyan")
             cprint(f"  ├─ Length: {len(transcript)} chars", "cyan")
             cprint(f"  └─ Content type check: {'chicken' in transcript.lower()}", "yellow")
-            
+
             # For Ollama models
             if MODEL_TYPE == "ollama":
                 cprint("\n🧠 Using Ollama model...", "cyan")
@@ -336,39 +336,39 @@ class FocusAgent:
                     user_content=FOCUS_PROMPT.format(transcript=transcript),
                     temperature=0.7
                 )
-                
+
                 # Handle raw string response from Ollama
                 if isinstance(response, str):
                     response_content = response
                 else:
                     response_content = response.content if hasattr(response, 'content') else str(response)
-                
+
                 # Print raw response for debugging
                 cprint(f"\n📝 Raw model response:", "magenta")
                 cprint(f"══════════════════════════════", "magenta")
                 cprint(response_content, "yellow")
                 cprint(f"══════════════════════════════\n", "magenta")
-                
+
                 # Improved response parsing
                 try:
                     # Clean up the response and convert to lowercase for consistent parsing
                     lines = [line.strip().lower() for line in response_content.split('\n') if line.strip()]
-                    
+
                     # Look for score in any line
                     score = None
                     message = None
-                    
+
                     for line in lines:
                         # Remove any "line X:" prefixes (case insensitive)
                         line = re.sub(r'^line\s*\d+:\s*', '', line, flags=re.IGNORECASE)
-                        
+
                         # Try to find score
                         if not score and re.search(r'\d+/10', line):
                             score_match = re.search(r'(\d+)/10', line)
                             if score_match:
                                 score = float(score_match.group(1))
                                 continue
-                        
+
                         # If not a score line and not a system message, treat as message
                         if not any(keyword in line for keyword in ['transcript', 'consider', 'respond', 'important']):
                             # Get original case message from response_content
@@ -377,23 +377,23 @@ class FocusAgent:
                                 if re.sub(r'^line\s*\d+:\s*', '', orig_line, flags=re.IGNORECASE).lower() == line:
                                     message = re.sub(r'^line\s*\d+:\s*', '', orig_line, flags=re.IGNORECASE)
                                     break
-                    
+
                     if score is not None and message:
                         # Validate score range
                         if not (1 <= score <= 10):
                             score = max(1, min(10, score))  # Clamp between 1 and 10
-                        
+
                         return score, message
                     else:
                         cprint(f"\n⚠️ Parsing Debug:", "yellow")
                         cprint(f"  ├─ Score found: {score}", "yellow")
                         cprint(f"  └─ Message found: {message}", "yellow")
                         raise ValueError("Could not extract score and message")
-                    
+
                 except Exception as e:
                     cprint(f"\n❌ Error in response parsing: {str(e)}", "red")
                     return 5, "Error parsing focus analysis"  # Return middle score instead of 0
-                
+
             else:
                 # Handle other model types (unchanged)
                 response = self.model.generate_response(
@@ -403,23 +403,23 @@ class FocusAgent:
                     max_tokens=AI_MAX_TOKENS
                 )
                 response_content = response.content
-                
+
                 # Parse the response
                 lines = response_content.split('\n')
                 if len(lines) >= 2:
                     score_line = lines[0].strip()
                     message = lines[1].strip()
-                    
+
                     # Extract score
                     score_match = re.search(r'(\d+)/10', score_line)
                     if score_match:
                         score = float(score_match.group(1))
                         return score, message
-                
+
                 # If parsing fails, return default values
                 cprint("⚠️ Couldn't parse response, using default values", "yellow")
                 return 5, "Keep crushing it Moon Dev! Your focus is amazing!"
-                
+
         except Exception as e:
             cprint(f"❌ Error analyzing focus: {str(e)}", "red")
             return 5, "Error analyzing focus, but keep going Moon Dev!"  # Always return a tuple
@@ -439,18 +439,18 @@ class FocusAgent:
                 'focus_score': score,
                 'quote': quote.strip('"')  # Remove quotation marks
             }
-            
+
             # Read existing CSV
             df = pd.read_csv(self.focus_log_path)
-            
+
             # Append new data
             df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-            
+
             # Save back to CSV
             df.to_csv(self.focus_log_path, index=False)
-            
+
             cprint("📝 Focus data logged successfully!", "green")
-            
+
         except Exception as e:
             cprint(f"❌ Error logging focus data: {str(e)}", "red")
 
@@ -458,7 +458,7 @@ class FocusAgent:
         """Announce current model with eye-catching formatting"""
         model_msg = f"🤖 TESTING MODEL: {MODEL_TYPE.upper()} - {MODEL_NAME} 🤖"
         border = "=" * (len(model_msg) + 4)
-        
+
         cprint(border, 'white', 'on_green', attrs=['bold'])
         cprint(f"  {model_msg}  ", 'white', 'on_green', attrs=['bold'])
         cprint(border, 'white', 'on_green', attrs=['bold'])
@@ -467,53 +467,53 @@ class FocusAgent:
         """Process transcript and provide focus assessment"""
         # Announce model before processing
         self._announce_model()
-        
+
         # Print the transcript being sent to AI
         cprint("\n📝 Transcript being analyzed:", "cyan")
         cprint(f"══════════════════════════════", "cyan")
         cprint(transcript, "yellow")
         cprint(f"══════════════════════════════\n", "cyan")
-        
+
         score, message = self.analyze_focus(transcript)
-        
+
         # Log the data
         self._log_focus_data(score, message)
-        
+
         # Determine if voice announcement needed
         needs_voice = score < FOCUS_THRESHOLD
-        
+
         # Format message - only include score and motivational message
         formatted_message = f"{score}/10\n{message.strip()}"
-        
+
         # Announce
         self._announce(formatted_message, force_voice=needs_voice)
-        
+
         return score
 
     def run(self):
         """Main loop for random monitoring"""
         cprint("\n🎯 Moon Dev's Focus Agent starting with voice monitoring...", "cyan")
         cprint(f"⏰ Operating hours: {SCHEDULE_START.strftime('%I:%M %p')} - {SCHEDULE_END.strftime('%I:%M %p')}", "cyan")
-        
+
         while True:
             try:
                 # Check schedule before each monitoring cycle
                 self._check_schedule()
-                
+
                 # Get random interval
                 interval = self._get_random_interval()
                 next_check = datetime.now() + timedelta(seconds=interval)
-                
+
                 # Print next check time
                 cprint(f"\n⏰ Next focus check will be around {next_check.strftime('%I:%M %p')}", "cyan")
-                
+
                 # Use time_lib instead of time
                 time_lib.sleep(interval)
-                
+
                 # Start recording
                 #cprint("\n🎤 Recording sample...", "cyan")
                 self.record_audio()
-                
+
                 # Process recording if we got something
                 if self.current_transcript:
                     full_transcript = ' '.join(self.current_transcript)
@@ -525,7 +525,7 @@ class FocusAgent:
                         cprint("⚠️ No speech detected in sample", "yellow")
                 else:
                     cprint("⚠️ No transcript generated", "yellow")
-                    
+
             except KeyboardInterrupt:
                 raise
             except Exception as e:

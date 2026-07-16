@@ -1,0 +1,59 @@
+{
+  "Stoch Micro Snap": {
+    "attempts": 5,
+    "successes": 0,
+    "total_return": -443.777715,
+    "returns": [
+      -88.755543,
+      -88.755543,
+      -88.755543,
+      -88.755543,
+      -88.755543
+    ],
+    "sharpes": [
+      0,
+      0,
+      0,
+      0.0,
+      0.0
+    ],
+    "avg_return": -88.755543,
+    "avg_sharpe": 0.0,
+    "win_rate": 0.0,
+    "last_updated": "2025-12-25T04:34:41.178915"
+  },
+  "Stop Hunt Reversal": {
+    "attempts": 3,
+    "successes": 2,
+    "total_return": 3.154222,
+    "returns": [
+      1.577111,
+      1.577111,
+      0.0
+    ],
+    "sharpes": [
+      0.380608,
+      0.380608,
+      0.0
+    ],
+    "avg_return": 1.0514073333333334,
+    "avg_sharpe": 0.25373866666666667,
+    "win_rate": 0.6666666666666666,
+    "last_updated": "2025-12-25T04:34:41.299739"
+  },
+  "Failed Breakout Trap": {
+    "attempts": 1,
+    "successes": 0,
+    "total_return": -94.410441,
+    "returns": [
+      -94.410441
+    ],
+    "sharpes": [
+      0.0
+    ],
+    "avg_return": -94.410441,
+    "avg_sharpe": 0.0,
+    "win_rate": 0.0,
+    "last_updated": "2025-12-25T04:34:41.259630"
+  }
+}
